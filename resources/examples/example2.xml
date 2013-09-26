@@ -1,0 +1,1586 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (c) 2007-2008 IBM Corporation.  All rights reserved.
+This file is part of a process template created for use with the Jazz Process Framework.
+Your use of the process template (and hence this file) is subject to the following terms and conditions found in the process attachment named process_template_license.html.
+-->
+<process-specification xmlns="http://com.ibm.team.process">
+	<role-definitions>
+	    <role-definition cardinality="many" description="Osoba zodpovedna za urcitou podcast systemu" name="Area Leader" role-id="area_leader"/>
+	    <role-definition cardinality="many" description="Vedouci tymu vyvijejiciho urcitou cast systemu" name="Team Leader" role-id="team_leader"/>
+	    <role-definition cardinality="many" description="Osoba zadavajici do systemu nova pozadavky na zmenu / chyby" name="Reporter" role-id="reporter"/>
+	    <role-definition cardinality="many" description="Vedouci celeho projektu" name="Project leader" role-id="project_leader"/>
+	    <role-definition cardinality="many" description="" name="Test manager" role-id="test_manager"/>
+	    <role-definition cardinality="many" description="" name="Release Manager" role-id="release_manager"/>
+	    <role-definition cardinality="many" description="" name="Deployer" role-id="deployer"/>
+	    <role-definition cardinality="many" description="Role for virtual user running build engine" name="Build Engine" role-id="build_engine"/>
+	    <role-definition cardinality="many" description="" name="Datasys PM" role-id="DatasysPM"/>
+	</role-definitions>
+	
+	
+	
+	
+	
+	<project-configuration>
+		<initialization>
+			<client-initialization>
+				<followup-actions>
+					<followup-action id="com.ibm.team.process.client.runAssignedWorkitemsQuery"
+						name="Show Initial Work Items"
+						description="Runs a query which displays any assigned work items."
+						optional="true"/>
+				</followup-actions>
+			</client-initialization>
+			<server-initialization>
+				<followup-actions>
+					<followup-action id="com.ibm.team.process.server.setUpProject" xmlns="http://com.ibm.team.process/setUpProject"
+						name="Setup Project"
+						description="Initializes a project area with the pieces necessary to start work on a project."
+						optional="false">
+						<team-area
+							name="${project-area-name} Team"
+							timeline="development"/>
+						<stream
+							name="${team-area-name} Stream"
+							description="Main collaboration stream for ${team-area-name}">
+							<component name="${team-area-name} Default Component"/>
+						</stream>
+						<workspace
+							name="${stream-name} Workspace"
+							description="Initial repository workspace for the creator of ${stream-name} Stream"/>
+						<workitems>
+							<category path="${project-area-name}" htmlDescription="Category for all not further specified work items."/>
+							<workitem
+								type="task"
+								categoryPath="${project-area-name}"
+								summary="Define an iteration plan"
+								htmlDescription="Define an iteration plan&lt;br/&gt;&lt;br/&gt;To define an iteration plan for your team area:&lt;br/&gt;&lt;br/&gt;1. Open the &lt;b&gt;Team Artifacts&lt;/b&gt; view and expand the node corresponding to your connected project area.&lt;br/&gt;&lt;br/&gt;2. Right-click the &lt;b&gt;Plans&lt;/b&gt; node, select &lt;b&gt;New-&amp;gt;Iteration Plan&lt;/b&gt;, and complete the wizard.&lt;br/&gt;&lt;br/&gt;For additional details on defining iteration plans using the &lt;b&gt;Iteration Plan&lt;/b&gt; wizard, consult the&lt;br/&gt;&lt;a href=&quot;http://publib.boulder.ibm.com/infocenter/rtc/v1r0m0/topic/com.ibm.team.apt.doc/topics/t_getting_started.html&quot;&gt;Getting Started with Iteration Planning&lt;/a&gt; help topic.&lt;br/&gt;&lt;br/&gt;See any terms you don't recognize? You may also wish to consult the &lt;a href=&quot;http://publib.boulder.ibm.com/infocenter/rtc/v1r0m0/topic/com.ibm.team.platform.doc/topics/c_jazz-platform-quick-ref.html&quot;&gt;Jazz Platform Quick Reference&lt;/a&gt;."/>
+							<workitem
+								type="task"
+								categoryPath="${project-area-name}"
+								summary="Define a new build"
+								htmlDescription="Define a new build&lt;br/&gt;&lt;br/&gt;To define a new build for your team area:&lt;br/&gt;&lt;br/&gt;1. Open the &lt;b&gt;Team Artifacts&lt;/b&gt; view and expand the node corresponding to your connected project area.&lt;br/&gt;&lt;br/&gt;2. Right-click the &lt;b&gt;Builds&lt;/b&gt; node and select &lt;b&gt;New Build Definition&lt;/b&gt; and follow the prompts in the wizard.&lt;br/&gt;&lt;br/&gt;For additional details on defining build definitions using the &lt;b&gt;Build Definition&lt;/b&gt; wizard, consult the&lt;br/&gt;&lt;a href=&quot;http://publib.boulder.ibm.com/infocenter/rtc/v1r0m0/topic/com.ibm.team.build.doc/topics/t_getting_started_build.html&quot;&gt;Getting Started with setting up Jazz Builds&lt;/a&gt; help topic.&lt;br/&gt;&lt;br/&gt;See any terms you don't recognize? You may also wish to consult the &lt;a href=&quot;http://publib.boulder.ibm.com/infocenter/rtc/v1r0m0/topic/com.ibm.team.platform.doc/topics/c_jazz-platform-quick-ref.html&quot;&gt;Jazz Platform Quick Reference&lt;/a&gt;."/>
+							<workitem
+								type="task"
+								categoryPath="${project-area-name}"
+								summary="Share code with Jazz Source Control"
+								htmlDescription="Share code with Jazz Source Control&lt;br/&gt;&lt;br/&gt;To share code in your Eclipse workspace with the Jazz stream created during process initialization:&lt;br/&gt;&lt;br/&gt;1. Select a project you wish to share, right-click and select &lt;b&gt;Team-&amp;gt;Share Project...&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;2. In the &lt;b&gt;Share Project&lt;/b&gt; Wizard, select &lt;b&gt;Jazz Source Control&lt;/b&gt; and select &lt;b&gt;Next&lt;/b&gt;.&lt;br/&gt;&lt;br/&gt;3. If you have more than one unshared project in your workspace, you will be given the chance to select other projects to share. On the &lt;b&gt;Projects&lt;/b&gt; page, select any additional projects you wish to share and select &lt;b&gt;Next&lt;/b&gt;.&lt;br/&gt;&lt;br/&gt;4. If you have more than one repository connection, you will be prompted to choose one. On the &lt;b&gt;Jazz Repository&lt;/b&gt; page, select the repository in which you created your project area and select &lt;b&gt;Next&lt;/b&gt;.&lt;br/&gt;&lt;br/&gt;5. On the &lt;b&gt;Select Component&lt;/b&gt; page, you should see a repository workspace prefixed with the name of the project area you created.&lt;br/&gt;&lt;br/&gt;Expand this repository workspace and you will see a component. Select this component and select &lt;b&gt;Next&lt;/b&gt;. Review the ignored resources on the next page and then select &lt;b&gt;Finish&lt;/b&gt; to share your code with the specified component and repository workspace.&lt;br/&gt;&lt;br/&gt;6. Now that the code has been shared to your repository workspace, you need to deliver it from your workspace to the stream created during initialization of the process. To do this, open the &lt;b&gt;Pending Changes&lt;/b&gt; view.&lt;br/&gt;&lt;br/&gt;7. In the &lt;b&gt;Pending Changes&lt;/b&gt; view, you should see one outgoing change from your repository workspace. Right-click on the repository workspace and select &lt;b&gt;Deliver&lt;/b&gt; to deliver your code to the stream associated with your team area.&lt;br/&gt;&lt;br/&gt;For additional details on using Jazz Source Control, consult the&lt;br/&gt;&lt;a href=&quot;http://publib.boulder.ibm.com/infocenter/rtc/v1r0m0/topic/com.ibm.team.scm.doc/topics/c_intro.html&quot;&gt;Getting Started with Jazz Source Control&lt;/a&gt; help topic.&lt;br/&gt;&lt;br/&gt;See any terms you don't recognize? You may also wish to consult the &lt;a href=&quot;http://publib.boulder.ibm.com/infocenter/rtc/v1r0m0/topic/com.ibm.team.platform.doc/topics/c_jazz-platform-quick-ref.html&quot;&gt;Jazz Platform Quick Reference&lt;/a&gt;."/>
+							<workitem
+								type="task"
+								categoryPath="${project-area-name}"
+								summary="Define iterations"
+								htmlDescription="Define iterations&lt;br/&gt;&lt;br/&gt;When the project area was initialized, an initial development line &amp;quot;development&amp;quot; was created. Within the development line a hierarchy of iterations has been created for you.&lt;br/&gt;&lt;br/&gt;To edit, delete, duplicate or add additional development lines and iterations:&lt;br/&gt;&lt;br/&gt;1. Open the &lt;b&gt;Project Area Editor&lt;/b&gt; by right-clicking on the project area in the &lt;b&gt;Team Artifacts&lt;/b&gt; or &lt;b&gt;Team Organization&lt;/b&gt; view and selecting &lt;b&gt;Open&lt;/b&gt;.&lt;br/&gt;&lt;br/&gt;2. Go to the &lt;b&gt;Process Iterations&lt;/b&gt; section in the editor. To create a new iteration, use either the &lt;b&gt;Create Iteration...&lt;/b&gt; action or the &lt;b&gt;Duplicate...&lt;/b&gt; action on an existing iteration.&lt;br/&gt;&lt;br/&gt;3. To define the start and end dates for an existing iteration, use the &lt;b&gt;Edit Properties...&lt;/b&gt; action on an existing iteration.&lt;br/&gt;&lt;br/&gt;For additional details on using Jazz Team Process, consult the&lt;br/&gt;&lt;a href=&quot;http://publib.boulder.ibm.com/infocenter/rtc/v1r0m0/topic/com.ibm.team.platform.doc/topics/get_start_proj_proc.html&quot;&gt;Getting Started with Projects, Teams, and Process&lt;/a&gt; help topic.&lt;br/&gt;&lt;br/&gt;See any terms you don't recognize? You may also wish to consult the &lt;a href=&quot;http://publib.boulder.ibm.com/infocenter/rtc/v1r0m0/topic/com.ibm.team.platform.doc/topics/c_jazz-platform-quick-ref.html&quot;&gt;Jazz Platform Quick Reference&lt;/a&gt;."/>
+							<workitem
+								type="task"
+								categoryPath="${project-area-name}"
+								summary="Define categories and releases for work items"
+								htmlDescription="Define categories and releases for work items. These values will then be available in the work item &lt;b&gt;Categories&lt;/b&gt; and &lt;b&gt;Found In&lt;/b&gt; fields.&lt;br/&gt;&lt;br/&gt;To define the work item categories for the project area:&lt;br/&gt;&lt;br/&gt;1. Open the &lt;b&gt;Project Area Editor&lt;/b&gt; by right-clicking on the project area in the &lt;b&gt;Team Artifacts&lt;/b&gt; or &lt;b&gt;Team Organization&lt;/b&gt; view and selecting &lt;b&gt;Open&lt;/b&gt;.&lt;br/&gt;&lt;br/&gt;2. Go to the &lt;b&gt;Work Item Categories&lt;/b&gt; tab. &lt;br/&gt;&lt;br/&gt;3. Define categories for work items as well as associate categories with the team areas responsible for the category.&lt;br/&gt;&lt;br/&gt;To define the releases to file work items against:&lt;br/&gt;&lt;br/&gt;1. Go to the &lt;b&gt;Releases&lt;/b&gt; tab of the &lt;b&gt;Project Area Editor&lt;/b&gt;.&lt;br/&gt;&lt;br/&gt;2. Add some releases to file work items against.&lt;br/&gt;&lt;br/&gt;For additional details on using Jazz Work Items, consult the&lt;br/&gt;&lt;a href=&quot;http://publib.boulder.ibm.com/infocenter/rtc/v1r0m0/topic/com.ibm.team.workitem.doc/topics/t_getting_started.html&quot;&gt;Getting Started with Work Items&lt;/a&gt; help topic.&lt;br/&gt;&lt;br/&gt;See any terms you don't recognize? You may also wish to consult the &lt;a href=&quot;http://publib.boulder.ibm.com/infocenter/rtc/v1r0m0/topic/com.ibm.team.platform.doc/topics/c_jazz-platform-quick-ref.html&quot;&gt;Jazz Platform Quick Reference&lt;/a&gt;."/>
+							<workitem
+								type="task"
+								categoryPath="${project-area-name}"
+								summary="Define team members"
+								htmlDescription="Define the team members for the project area as well as the team area&lt;br/&gt;&lt;br/&gt;To define team members for a team area or project area:&lt;br/&gt;&lt;br/&gt;1. Open the team area or project area editor by right-clicking on the project or team area in the &lt;b&gt;Team Artifacts&lt;/b&gt; or &lt;b&gt;Team Organization&lt;/b&gt; view and selecting &lt;b&gt;Open&lt;/b&gt;.&lt;br/&gt;&lt;br/&gt;2. On the &lt;b&gt;Overview&lt;/b&gt; page of the editor, there is a &lt;b&gt;Members&lt;/b&gt; section. To add a user to the team select the &lt;b&gt;Add&lt;/b&gt; button. To create a new user and add them as a member of the team, select the &lt;b&gt;Create&lt;/b&gt; button&lt;br/&gt;&lt;br/&gt;3. If you clicked &lt;b&gt;Add&lt;/b&gt;, in the &lt;b&gt;Add Team Members&lt;/b&gt; dialog, select the user(s) you wish to add to your team or project area. If you clicked &lt;b&gt;Create&lt;/b&gt;, define the new team member in the &lt;b&gt;Create User&lt;/b&gt; wizard.&lt;br/&gt;&lt;br/&gt;4. Consider what roles individuals working on your project will assume and what role-specific process should apply to each role. In addition, you will want to consider what permissions to grant to individuals in these roles. For additional details on using Jazz Team Process, consult the&lt;br/&gt;&lt;a href=&quot;http://publib.boulder.ibm.com/infocenter/rtc/v1r0m0/topic/com.ibm.team.platform.doc/topics/get_start_proj_proc.html&quot;&gt;Getting Started with Projects, Teams, and Process&lt;/a&gt; help topic.&lt;br/&gt;&lt;br/&gt;5. On &lt;b&gt;Save&lt;/b&gt; of the editor you will be prompted to send invitations to the newly added team members. This allows you to configure an email invitation that is sent to the new team member. The new team member can accept the invitation with &lt;b&gt;File-&amp;gt;Accept Team Invitation...&lt;/b&gt;. The invitation will quickly setup their Eclipse workspace to work with the team. At any time you can invite team members to join the team by selecting the team member in the &lt;b&gt;Members&lt;/b&gt; section, right click and select &lt;b&gt;Invite to Join Team...&lt;/b&gt;.&lt;br/&gt;&lt;br/&gt;See any terms you don't recognize? You may also wish to consult the &lt;a href=&quot;http://publib.boulder.ibm.com/infocenter/rtc/v1r0m0/topic/com.ibm.team.platform.doc/topics/c_jazz-platform-quick-ref.html&quot;&gt;Jazz Platform Quick Reference&lt;/a&gt;."/>
+						</workitems>
+					</followup-action>
+				</followup-actions>
+			</server-initialization>
+		</initialization>
+		<permissions>
+		    <role id="team-member">
+		        <project-operation id="com.ibm.team.process.server.saveProjectArea">
+		            <action id="any"/>
+		        </project-operation>
+		        <project-operation id="com.ibm.team.workitem.server.saveCategory">
+		            <action id="any"/>
+		        </project-operation>
+		        <project-operation id="com.ibm.team.workitem.server.saveDeliverable">
+		            <action id="any"/>
+		        </project-operation>
+		        <project-operation id="com.ibm.team.workitem.server.saveAttachment">
+		            <action id="any"/>
+		        </project-operation>
+		    </role>
+		    <role id="default">
+		        <project-operation id="com.ibm.team.dashboard.server.savePersonalDashboard">
+		            <action id="any"/>
+		        </project-operation>
+		        <project-operation id="com.ibm.team.workitem.server.saveAttachment">
+		            <action id="any"/>
+		        </project-operation>
+		    </role>
+		    <role id="area_leader">
+		        <project-operation id="com.ibm.team.dashboard.server.saveProjectDashboard">
+		            <action id="any"/>
+		        </project-operation>
+		        <project-operation id="com.ibm.team.workitem.server.saveCategory">
+		            <action id="any"/>
+		        </project-operation>
+		    </role>
+		    <role id="team_leader">
+		        <project-operation id="com.ibm.team.dashboard.server.saveProjectDashboard">
+		            <action id="any"/>
+		        </project-operation>
+		    </role>
+		    <role id="project_leader">
+		        <project-operation id="com.ibm.team.dashboard.server.saveProjectDashboard">
+		            <action id="any"/>
+		        </project-operation>
+		        <project-operation id="com.ibm.team.process.server.saveProjectArea">
+		            <action id="modify">
+		                <action id="members"/>
+		                <action id="other"/>
+		                <action id="specification"/>
+		                <action id="iterationStructure">
+		                    <action id="any"/>
+		                </action>
+		            </action>
+		            <action id="archive">
+		                <action id="any"/>
+		            </action>
+		        </project-operation>
+		        <project-operation id="com.ibm.team.workitem.server.saveCategory">
+		            <action id="any"/>
+		        </project-operation>
+		        <project-operation id="com.ibm.team.workitem.server.saveDeliverable">
+		            <action id="any"/>
+		        </project-operation>
+		    </role>
+		</permissions>
+		
+		
+		
+		
+		
+		<data>
+			<configuration-data xmlns="http://com.ibm.team.workitem/workitemTypes" id="com.ibm.team.workitem.configuration.workItemTypes">
+			    <type category="cz.ibm.workitemcategory.defect" icon="processattachment:/workitemtype/bug.gif" id="cz.ibm.defect" name="Defect"/>
+			    <type category="cz.ibm.workitemcategory.task" icon="processattachment:/workitemtype/task.gif" id="task" name="Task"/>
+			    <type category="cz.ibm.workitemcategory.featurerequest" icon="processattachment:/workitemtype/general.gif" id="cz.ibm.featurerequest" name="Feature Request"/>
+			    <type category="cz.ibm.workitemcategory.releaseRequest" icon="processattachment:/workitemtype/enhancement.gif" id="cz.ibm.workitem.releaseRequest" name="Release Request"/>
+			    <customAttributes category="cz.ibm.workitemcategory.defect">
+			        <customAttribute id="cz.ibm.attr.environment" name="Environment" type="cz.ibm.enum.environment"/>
+			        <customAttribute id="cz.ibm.attr.provoz" name="Phase" type="cz.ibm.enum.provoz"/>
+			        <customAttribute id="cz.ibm.attr.fixedIn" name="Fixed in" type="deliverable"/>
+			        <customAttribute id="cz.ibm.attr.componentVersion" name="Component version" type="mediumString"/>
+			        <customAttribute id="cz.ibm.attr.downtimeFrom.temp" name="Downtime from" type="smallString"/>
+			        <customAttribute id="cz.ibm.attr.downtimeTo.temp" name="Downtime to" type="smallString"/>
+			        <customAttribute id="cz.ibm.attr.responseTime.temp" name="Response time" type="smallString"/>
+			    </customAttributes>
+			    <customAttributes category="cz.ibm.workitemcategory.task">
+			        <customAttribute id="cz.ibm.attr.environment" name="Environment" type="cz.ibm.enum.environment"/>
+			        <customAttribute id="cz.ibm.attr.provoz" name="Phase" type="cz.ibm.enum.provoz"/>
+			        <customAttribute id="cz.ibm.attr.fixedIn" name="Fixed in" type="deliverable"/>
+			    </customAttributes>
+			    <customAttributes category="cz.ibm.workitemcategory.featurerequest">
+			        <customAttribute id="cz.ibm.attr.provoz" name="Phase" type="cz.ibm.enum.provoz"/>
+			        <customAttribute id="cz.ibm.attr.fixedIn" name="Fixed in" type="deliverable"/>
+			    </customAttributes>
+			    <customAttributes category="cz.ibm.workitemcategory.releaseRequest">
+			        <customAttribute id="cz.ibm.attribute.release" name="Release" type="deliverable"/>
+			        <customAttribute id="cz.ibm.attribute.plannedBuildDate" name="Planned build date" type="timestamp"/>
+			    </customAttributes>
+			    <attributeDefinitions>
+			        <attributeDefinition id="cz.ibm.attr.downtimeFrom.temp" name="Downtime from" type="smallString"/>
+			        <attributeDefinition id="cz.ibm.attr.downtimeTo.temp" name="Downtime to" type="smallString"/>
+			        <attributeDefinition id="cz.ibm.attr.responseTime.temp" name="Response time" type="smallString"/>
+			    </attributeDefinitions>
+			</configuration-data>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			<configuration-data xmlns="http://com.ibm.team.workitem/workflow" id="com.ibm.team.workitem.configuration.workflow">
+			    <workflowDefinition id="bugzillaWorkflow">
+			        <workflow description="This workflow is inspired by the standard Bugzilla workflow and appropriate for defects and tasks." name="Default Workflow" reopenActionId="bugzillaWorkflow.action.reopen" resolveActionId="bugzillaWorkflow.action.resolve" startActionId="bugzillaWorkflow.action.confirm">
+			            <resolution icon="processattachment:/workflow/reject.gif" id="r5" name="Invalid"/>
+			            <resolution icon="processattachment:/workflow/works.gif" id="r4" name="Works For Me"/>
+			            <resolution icon="processattachment:/workflow/wontdo.gif" id="r3" name="Won't Fix"/>
+			            <resolution icon="processattachment:/workflow/duplicate.gif" id="r2" name="Duplicate"/>
+			            <resolution icon="processattachment:/workflow/close.gif" id="r1" name="Fixed"/>
+			            <resolution icon="processattachment:/workflow/unresolve.gif" id="r0" name="Unresolved"/>
+			            <resolution icon="processattachment:/workflow/close.gif" id="r8" name="Fixed Upstream"/>
+			            <resolution icon="processattachment:/workflow/defer.gif" id="r7" name="Later"/>
+			            <action icon="processattachment:/workflow/resolve.gif" id="bugzillaWorkflow.action.resolve" name="Resolve" state="s3">
+			                <resolution id="r1"/>
+			                <resolution id="r2"/>
+			                <resolution id="r3"/>
+			                <resolution id="r4"/>
+			                <resolution id="r5"/>
+			                <resolution id="r7"/>
+			                <resolution id="r8"/>
+			            </action>
+			            <action icon="processattachment:/workflow/inprogress.gif" id="bugzillaWorkflow.action.startWorking" name="Start Working" state="s2"/>
+			            <action icon="processattachment:/workflow/open.gif" id="bugzillaWorkflow.action.triage" name="Triage" state="s7"/>
+			            <action icon="processattachment:/workflow/open.gif" id="bugzillaWorkflow.action.stopWorking" name="Stop Working" state="s1"/>
+			            <action icon="processattachment:/workflow/close.gif" id="bugzillaWorkflow.action.close" name="Close" state="s5">
+			                <resolution id="r1"/>
+			                <resolution id="r2"/>
+			                <resolution id="r3"/>
+			                <resolution id="r4"/>
+			                <resolution id="r5"/>
+			                <resolution id="r7"/>
+			                <resolution id="r8"/>
+			            </action>
+			            <action icon="processattachment:/workflow/verify.gif" id="bugzillaWorkflow.action.verify" name="Verify" state="s4">
+			                <resolution id="r1"/>
+			                <resolution id="r2"/>
+			                <resolution id="r3"/>
+			                <resolution id="r4"/>
+			                <resolution id="r5"/>
+			                <resolution id="r7"/>
+			                <resolution id="r8"/>
+			            </action>
+			            <action icon="processattachment:/workflow/open.gif" id="bugzillaWorkflow.action.confirm" name="Initialize" state="s1"/>
+			            <action icon="processattachment:/workflow/open.gif" id="bugzillaWorkflow.action.untriage" name="Untriage" state="s1"/>
+			            <action icon="processattachment:/workflow/resolve.gif" id="bugzillaWorkflow.action.setResolved" name="Set Resolved" state="s3">
+			                <resolution id="r1"/>
+			                <resolution id="r2"/>
+			                <resolution id="r3"/>
+			                <resolution id="r4"/>
+			                <resolution id="r5"/>
+			                <resolution id="r7"/>
+			                <resolution id="r8"/>
+			            </action>
+			            <action icon="processattachment:/workflow/reopen.gif" id="bugzillaWorkflow.action.reopen" name="Reopen" state="s6"/>
+			            <state group="closed" icon="processattachment:/workflow/close.gif" id="s5" name="Closed" showResolution="true">
+			                <action id="bugzillaWorkflow.action.reopen"/>
+			            </state>
+			            <state group="inprogress" icon="processattachment:/workflow/inprogress.gif" id="s2" name="In Progress" showResolution="false">
+			                <action id="bugzillaWorkflow.action.resolve"/>
+			                <action id="bugzillaWorkflow.action.stopWorking"/>
+			            </state>
+			            <state group="open" icon="processattachment:/workflow/open.gif" id="s1" name="New" showResolution="false">
+			                <action id="bugzillaWorkflow.action.startWorking"/>
+			                <action id="bugzillaWorkflow.action.resolve"/>
+			                <action id="bugzillaWorkflow.action.triage"/>
+			            </state>
+			            <state group="open" icon="processattachment:/workflow/reopen.gif" id="s6" name="Reopened" showResolution="false">
+			                <action id="bugzillaWorkflow.action.startWorking"/>
+			                <action id="bugzillaWorkflow.action.resolve"/>
+			                <action id="bugzillaWorkflow.action.triage"/>
+			            </state>
+			            <state group="closed" icon="processattachment:/workflow/resolve.gif" id="s3" name="Resolved" showResolution="true">
+			                <action id="bugzillaWorkflow.action.verify"/>
+			                <action id="bugzillaWorkflow.action.close"/>
+			                <action id="bugzillaWorkflow.action.reopen"/>
+			            </state>
+			            <state group="open" icon="processattachment:/workflow/open.gif" id="s7" name="Triaged" showResolution="false">
+			                <action id="bugzillaWorkflow.action.startWorking"/>
+			                <action id="bugzillaWorkflow.action.untriage"/>
+			                <action id="bugzillaWorkflow.action.resolve"/>
+			            </state>
+			            <state group="closed" icon="processattachment:/workflow/verify.gif" id="s4" name="Verified" showResolution="true">
+			                <action id="bugzillaWorkflow.action.close"/>
+			                <action id="bugzillaWorkflow.action.reopen"/>
+			                <action id="bugzillaWorkflow.action.setResolved"/>
+			            </state>
+			        </workflow>
+			    </workflowDefinition>
+			    <workflowDefinition id="cz.ibm.com.workflow.defect">
+			        <workflow name="Defect workflow" reopenActionId="cz.ibm.com.workflow.defect.action.a3" resolveActionId="cz.ibm.com.workflow.defect.action.a2" startActionId="cz.ibm.com.workflow.defect.action.a1">
+			            <resolution description="The defect is duplicate of another defect" icon="processattachment:/workflow/duplicate.gif" id="cz.ibm.com.workflow.defect.resolution.r2" name="Duplicate"/>
+			            <resolution description="The defect won't be fixed" icon="processattachment:/workflow/wontdo.gif" id="cz.ibm.com.workflow.defect.resolution.r3" name="Won't fix"/>
+			            <resolution description="The defect is fixed" icon="processattachment:/workflow/close.gif" id="cz.ibm.com.workflow.defect.resolution.r1" name="Fixed"/>
+			            <action id="cz.ibm.com.workflow.defect.action.a5" name="Reject" state="cz.ibm.com.workflow.defect.state.s5"/>
+			            <action description="Resolve" icon="processattachment:/workflow/resolve.gif" id="cz.ibm.com.workflow.defect.action.a2" name="Resolve" state="cz.ibm.com.workflow.defect.state.s3">
+			                <resolution id="cz.ibm.com.workflow.defect.resolution.r2"/>
+			                <resolution id="cz.ibm.com.workflow.defect.resolution.r1"/>
+			                <resolution id="cz.ibm.com.workflow.defect.resolution.r3"/>
+			            </action>
+			            <action icon="processattachment:/workflow/open.gif" id="cz.ibm.com.workflow.defect.action.a1" name="Initialize" state="cz.ibm.com.workflow.defect.state.s1"/>
+			            <action id="cz.ibm.com.workflow.defect.action.a4" name="Assign" state="cz.ibm.com.workflow.defect.state.s2"/>
+			            <action icon="processattachment:/workflow/reopen.gif" id="cz.ibm.com.workflow.defect.action.a3" name="Reopen" state="cz.ibm.com.workflow.defect.state.s4"/>
+			            <state description="Resolved" group="closed" icon="processattachment:/workflow/close.gif" id="cz.ibm.com.workflow.defect.state.s3" name="Resolved" showResolution="true">
+			                <action id="cz.ibm.com.workflow.defect.action.a3"/>
+			            </state>
+			            <state description="Currently being solved" group="inprogress" icon="processattachment:/workflow/inprogress.gif" id="cz.ibm.com.workflow.defect.state.s2" name="In Progress" showResolution="false">
+			                <action id="cz.ibm.com.workflow.defect.action.a2"/>
+			            </state>
+			            <state description="The &quot;Filed against&quot; is not correct. Returned to Project leader to evaluate" group="open" icon="processattachment:/workflow/unconfigure.gif" id="cz.ibm.com.workflow.defect.state.s5" name="Rejected" showResolution="false">
+			                <action id="cz.ibm.com.workflow.defect.action.a1"/>
+			            </state>
+			            <state group="open" icon="processattachment:/workflow/reopen.gif" id="cz.ibm.com.workflow.defect.state.s4" name="Reopened" showResolution="false">
+			                <action id="cz.ibm.com.workflow.defect.action.a4"/>
+			                <action id="cz.ibm.com.workflow.defect.action.a2"/>
+			            </state>
+			            <state description="Newly created defect" group="open" icon="processattachment:/workflow/new.gif" id="cz.ibm.com.workflow.defect.state.s1" name="New" showResolution="false">
+			                <action id="cz.ibm.com.workflow.defect.action.a4"/>
+			                <action id="cz.ibm.com.workflow.defect.action.a2"/>
+			                <action id="cz.ibm.com.workflow.defect.action.a5"/>
+			            </state>
+			        </workflow>
+			    </workflowDefinition>
+			    <workflowDefinition id="cz.ibm.workflow.task">
+			        <workflow name="Task workflow" reopenActionId="cz.ibm.workflow.task.action.a5" resolveActionId="cz.ibm.workflow.task.action.a2" startActionId="cz.ibm.workflow.task.action.a3">
+			            <resolution description="The defect is fixed" icon="processattachment:/workflow/close.gif" id="cz.ibm.workflow.task.resolution.r3" name="Fixed"/>
+			            <resolution description="The defect won't be fixed" icon="processattachment:/workflow/wontdo.gif" id="cz.ibm.workflow.task.resolution.r2" name="Won't fix"/>
+			            <resolution description="The defect is duplicate of another defect" icon="processattachment:/workflow/duplicate.gif" id="cz.ibm.workflow.task.resolution.r1" name="Duplicate"/>
+			            <action id="cz.ibm.workflow.task.action.a4" name="Assign" state="cz.ibm.workflow.task.state.s1"/>
+			            <action icon="processattachment:/workflow/reopen.gif" id="cz.ibm.workflow.task.action.a5" name="Reopen" state="cz.ibm.workflow.task.state.s4"/>
+			            <action icon="processattachment:/workflow/open.gif" id="cz.ibm.workflow.task.action.a3" name="Initialize" state="cz.ibm.workflow.task.state.s2"/>
+			            <action description="Resolve" icon="processattachment:/workflow/resolve.gif" id="cz.ibm.workflow.task.action.a2" name="Resolve" state="cz.ibm.workflow.task.state.s5">
+			                <resolution id="cz.ibm.workflow.task.resolution.r1"/>
+			                <resolution id="cz.ibm.workflow.task.resolution.r3"/>
+			                <resolution id="cz.ibm.workflow.task.resolution.r2"/>
+			            </action>
+			            <action id="cz.ibm.workflow.task.action.a1" name="Reject" state="cz.ibm.workflow.task.state.s3"/>
+			            <state description="Currently being solved" group="inprogress" icon="processattachment:/workflow/inprogress.gif" id="cz.ibm.workflow.task.state.s1" name="In Progress" showResolution="false">
+			                <action id="cz.ibm.workflow.task.action.a2"/>
+			            </state>
+			            <state description="Newly created" group="open" icon="processattachment:/workflow/new.gif" id="cz.ibm.workflow.task.state.s2" name="New" showResolution="false">
+			                <action id="cz.ibm.workflow.task.action.a4"/>
+			                <action id="cz.ibm.workflow.task.action.a2"/>
+			                <action id="cz.ibm.workflow.task.action.a1"/>
+			            </state>
+			            <state description="The &quot;Filed against&quot; is not correct. Returned to Project leader to evaluate" group="open" icon="processattachment:/workflow/unconfigure.gif" id="cz.ibm.workflow.task.state.s3" name="Rejected" showResolution="false">
+			                <action id="cz.ibm.workflow.task.action.a3"/>
+			            </state>
+			            <state group="open" icon="processattachment:/workflow/reopen.gif" id="cz.ibm.workflow.task.state.s4" name="Reopened" showResolution="false">
+			                <action id="cz.ibm.workflow.task.action.a4"/>
+			                <action id="cz.ibm.workflow.task.action.a2"/>
+			            </state>
+			            <state description="Resolved" group="closed" icon="processattachment:/workflow/close.gif" id="cz.ibm.workflow.task.state.s5" name="Resolved" showResolution="true">
+			                <action id="cz.ibm.workflow.task.action.a5"/>
+			            </state>
+			        </workflow>
+			    </workflowDefinition>
+			    <workflowDefinition id="cz.ibm.workflow.featurerequest">
+			        <workflow name="Feature request workflow" reopenActionId="cz.ibm.workflow.featurerequest.action.a2" resolveActionId="cz.ibm.workflow.featurerequest.action.a4" startActionId="cz.ibm.workflow.featurerequest.action.a3">
+			            <resolution description="The defect is fixed" icon="processattachment:/workflow/close.gif" id="cz.ibm.workflow.featurerequest.resolution.r1" name="Fixed"/>
+			            <resolution description="The defect won't be fixed" icon="processattachment:/workflow/wontdo.gif" id="cz.ibm.workflow.featurerequest.resolution.r2" name="Won't fix"/>
+			            <resolution description="The defect is duplicate of another defect" icon="processattachment:/workflow/duplicate.gif" id="cz.ibm.workflow.featurerequest.resolution.r3" name="Duplicate"/>
+			            <action id="cz.ibm.workflow.featurerequest.action.a5" name="Reject" state="cz.ibm.workflow.featurerequest.state.s3"/>
+			            <action description="Resolve" icon="processattachment:/workflow/resolve.gif" id="cz.ibm.workflow.featurerequest.action.a4" name="Resolve" state="cz.ibm.workflow.featurerequest.state.s5">
+			                <resolution id="cz.ibm.workflow.featurerequest.resolution.r1"/>
+			                <resolution id="cz.ibm.workflow.featurerequest.resolution.r3"/>
+			                <resolution id="cz.ibm.workflow.featurerequest.resolution.r2"/>
+			            </action>
+			            <action id="cz.ibm.workflow.featurerequest.action.a6" name="Approve" state="cz.ibm.workflow.featurerequest.state.s6"/>
+			            <action id="cz.ibm.workflow.featurerequest.action.a1" name="Assign" state="cz.ibm.workflow.featurerequest.state.s1"/>
+			            <action icon="processattachment:/workflow/open.gif" id="cz.ibm.workflow.featurerequest.action.a3" name="Initialize" state="cz.ibm.workflow.featurerequest.state.s2"/>
+			            <action icon="processattachment:/workflow/reopen.gif" id="cz.ibm.workflow.featurerequest.action.a2" name="Reopen" state="cz.ibm.workflow.featurerequest.state.s4"/>
+			            <state description="Approved by Datasyst PM" group="open" icon="processattachment:/workflow/verify.gif" id="cz.ibm.workflow.featurerequest.state.s6" name="Approved" showResolution="false">
+			                <action id="cz.ibm.workflow.featurerequest.action.a1"/>
+			            </state>
+			            <state description="Resolved" group="closed" icon="processattachment:/workflow/close.gif" id="cz.ibm.workflow.featurerequest.state.s5" name="Resolved" showResolution="true">
+			                <action id="cz.ibm.workflow.featurerequest.action.a2"/>
+			            </state>
+			            <state group="open" icon="processattachment:/workflow/reopen.gif" id="cz.ibm.workflow.featurerequest.state.s4" name="Reopened" showResolution="false">
+			                <action id="cz.ibm.workflow.featurerequest.action.a1"/>
+			                <action id="cz.ibm.workflow.featurerequest.action.a4"/>
+			            </state>
+			            <state description="The &quot;Filed against&quot; is not correct. Returned to Project leader to evaluate" group="open" icon="processattachment:/workflow/unconfigure.gif" id="cz.ibm.workflow.featurerequest.state.s3" name="Rejected" showResolution="false">
+			                <action id="cz.ibm.workflow.featurerequest.action.a3"/>
+			            </state>
+			            <state description="Newly created" group="open" icon="processattachment:/workflow/new.gif" id="cz.ibm.workflow.featurerequest.state.s2" name="New" showResolution="false">
+			                <action id="cz.ibm.workflow.featurerequest.action.a1"/>
+			                <action id="cz.ibm.workflow.featurerequest.action.a4"/>
+			                <action id="cz.ibm.workflow.featurerequest.action.a5"/>
+			                <action id="cz.ibm.workflow.featurerequest.action.a6"/>
+			            </state>
+			            <state description="Currently being solved" group="inprogress" icon="processattachment:/workflow/inprogress.gif" id="cz.ibm.workflow.featurerequest.state.s1" name="In Progress" showResolution="false">
+			                <action id="cz.ibm.workflow.featurerequest.action.a4"/>
+			            </state>
+			        </workflow>
+			    </workflowDefinition>
+			    <workflowDefinition id="cz.ibm.workflow.releaseRequest">
+			        <workflow name="Release Request workflow" resolveActionId="cz.ibm.workflow.releaseRequest.action.a2" startActionId="cz.ibm.workflow.releaseRequest.action.a1">
+			            <action id="cz.ibm.workflow.releaseRequest.action.a7" name="Deploy" state="cz.ibm.workflow.releaseRequest.state.s6"/>
+			            <action icon="processattachment:/workflow/reject.gif" id="cz.ibm.workflow.releaseRequest.action.a8" name="Fail" state="cz.ibm.workflow.releaseRequest.state.s7"/>
+			            <action icon="processattachment:/workflow/inprogress.gif" id="cz.ibm.workflow.releaseRequest.action.a5" name="Ask for build" state="cz.ibm.workflow.releaseRequest.state.s4"/>
+			            <action icon="processattachment:/workflow/wontdo.gif" id="cz.ibm.workflow.releaseRequest.action.a3" name="Cancel" state="cz.ibm.workflow.releaseRequest.state.s3"/>
+			            <action icon="processattachment:/workflow/defer.gif" id="cz.ibm.workflow.releaseRequest.action.a4" name="Plan" state="cz.ibm.workflow.releaseRequest.state.s2"/>
+			            <action description="Request a new build" icon="processattachment:/workflow/new.gif" id="cz.ibm.workflow.releaseRequest.action.a1" name="Request" state="cz.ibm.workflow.releaseRequest.state.s1"/>
+			            <action icon="processattachment:/workflow/close.gif" id="cz.ibm.workflow.releaseRequest.action.a2" name="Release" state="cz.ibm.workflow.releaseRequest.state.s8"/>
+			            <action id="cz.ibm.workflow.releaseRequest.action.a9" name="Build" state="cz.ibm.workflow.releaseRequest.state.s5"/>
+			            <state description="Release request was canceled during the workflow" group="closed" icon="processattachment:/workflow/wontdo.gif" id="cz.ibm.workflow.releaseRequest.state.s3" name="Canceled" showResolution="false"/>
+			            <state description="Release was built" group="closed" icon="processattachment:/workflow/unresolve.gif" id="cz.ibm.workflow.releaseRequest.state.s5" name="Closed" showResolution="false">
+			                <action id="cz.ibm.workflow.releaseRequest.action.a3"/>
+			                <action id="cz.ibm.workflow.releaseRequest.action.a7"/>
+			            </state>
+			            <state description="Deployed and being tested" group="closed" icon="processattachment:/workflow/verify.gif" id="cz.ibm.workflow.releaseRequest.state.s6" name="Deployed" showResolution="false">
+			                <action id="cz.ibm.workflow.releaseRequest.action.a8"/>
+			                <action id="cz.ibm.workflow.releaseRequest.action.a2"/>
+			            </state>
+			            <state description="Some tests failed during testing" group="closed" icon="processattachment:/workflow/reject.gif" id="cz.ibm.workflow.releaseRequest.state.s7" name="Failed" showResolution="false"/>
+			            <state description="Release request is confirmed and release is planned" group="open" icon="processattachment:/workflow/defer.gif" id="cz.ibm.workflow.releaseRequest.state.s2" name="Planned" showResolution="false">
+			                <action id="cz.ibm.workflow.releaseRequest.action.a3"/>
+			                <action id="cz.ibm.workflow.releaseRequest.action.a5"/>
+			                <action id="cz.ibm.workflow.releaseRequest.action.a9"/>
+			                <action id="cz.ibm.workflow.releaseRequest.action.a2"/>
+			            </state>
+			            <state description="Testing passed and new release is released" group="inprogress" icon="processattachment:/workflow/inprogress.gif" id="cz.ibm.workflow.releaseRequest.state.s8" name="Released" showResolution="false"/>
+			            <state description="New release is requested by customer" group="open" icon="processattachment:/workflow/remind.gif" id="cz.ibm.workflow.releaseRequest.state.s1" name="Requested" showResolution="false">
+			                <action id="cz.ibm.workflow.releaseRequest.action.a3"/>
+			                <action id="cz.ibm.workflow.releaseRequest.action.a4"/>
+			            </state>
+			            <state description="No more artefacts can be added" group="inprogress" icon="processattachment:/workflow/inprogress.gif" id="cz.ibm.workflow.releaseRequest.state.s4" name="Waiting for build" showResolution="false">
+			                <action id="cz.ibm.workflow.releaseRequest.action.a3"/>
+			                <action id="cz.ibm.workflow.releaseRequest.action.a9"/>
+			            </state>
+			        </workflow>
+			    </workflowDefinition>
+			</configuration-data>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			<configuration-data xmlns="http://com.ibm.team.workitem/workflowBinding" id="com.ibm.team.workitem.configuration.workflowBinding">
+			    <workItemCategoryBinding workItemCategoryId="com.ibm.team.workitem.workItemType" workflowId="bugzillaWorkflow"/>
+			    <workItemCategoryBinding workItemCategoryId="cz.ibm.workitemcategory.defect" workflowId="cz.ibm.com.workflow.defect"/>
+			    <workItemCategoryBinding workItemCategoryId="cz.ibm.workitemcategory.featurerequest" workflowId="cz.ibm.workflow.featurerequest"/>
+			    <workItemCategoryBinding workItemCategoryId="cz.ibm.workitemcategory.releaseRequest" workflowId="cz.ibm.workflow.releaseRequest"/>
+			    <workItemCategoryBinding workItemCategoryId="cz.ibm.workitemcategory.task" workflowId="cz.ibm.workflow.task"/>
+			</configuration-data>
+			
+			
+			
+			
+			<configuration-data id="com.ibm.team.workitem.configuration.queries" xmlns="http://com.ibm.team.workitem/queries">
+				<query name="Open created by me" description="Work items I have created which are open or in progress" id="com.ibm.team.workitem.queries.predefined.openCreated">
+					<where>
+						<and>
+							<condition operator="is">
+								<attribute name="creator"/>
+								<variable type="currentUser"/>
+							</condition>
+							<condition operator="is">
+								<attribute name="internalState"/>
+								<variable type="state" arguments="open or in progress"/>
+							</condition>
+						</and>
+					</where>
+				</query>
+				<query name="Closed created by me" description="Work items I have created which have been resolved" id="com.ibm.team.workitem.queries.predefined.closedCreated">
+					<where>
+						<and>
+							<condition operator="is">
+								<attribute name="creator"/>
+								<variable type="currentUser"/>
+							</condition>
+							<condition operator="is">
+								<attribute name="internalState"/>
+								<variable type="state" arguments="closed"/>
+							</condition>
+						</and>
+					</where>
+				</query>
+				<query name="Resolved by me" description="Work items I have resolved" id="com.ibm.team.workitem.queries.predefined.myResolved">
+					<where>
+						<and>
+							<condition operator="is">
+								<attribute name="resolver"/>
+								<variable type="currentUser"/>
+							</condition>
+						</and>
+					</where>
+				</query>
+				<query name="Open subscribed by me" description="My subscriptions to open or in progress work items" id="com.ibm.team.workitem.queries.predefined.openSubscribed">
+					<where>
+						<and>
+							<condition operator="containing">
+								<attribute name="internalSubscriptions"/>
+								<variable type="currentUser"/>
+							</condition>
+							<condition operator="is">
+								<attribute name="internalState"/>
+								<variable type="state" arguments="open or in progress"/>
+							</condition>
+						</and>
+					</where>
+				</query>
+				<query name="Closed subscribed by me" description="My subscriptions to resolved work items" id="com.ibm.team.workitem.queries.predefined.closedSubscribed">
+					<where>
+						<and>
+							<condition operator="containing">
+								<attribute name="internalSubscriptions"/>
+								<variable type="currentUser"/>
+							</condition>
+							<condition operator="is">
+								<attribute name="internalState"/>
+								<variable type="state" arguments="closed"/>
+							</condition>
+						</and>
+					</where>
+				</query>
+				<query name="Open assigned to me (current milestone)" description="To do list for the current milestone" id="com.ibm.team.workitem.queries.predefined.myOpenCurrent">
+					<where>
+						<and>
+							<condition operator="is">
+								<attribute name="owner"/>
+								<variable type="currentUser"/>
+							</condition>
+							<condition operator="is">
+								<attribute name="internalState"/>
+								<variable type="state" arguments="open or in progress"/>
+							</condition>
+							<condition operator="is">
+								<attribute name="target"/>
+								<variable type="current milestone"/>
+							</condition>
+						</and>
+					</where>
+				</query>
+				<query name="Recently modified" description="Modified in the last 12 hours" id="com.ibm.team.workitem.queries.predefined.recentlyModified">
+					<where>
+						<condition operator="greater or equals">
+							<attribute name="modified"/>
+							<variable type="now" arguments="-12h"/>
+						</condition>
+					</where>
+					<orderBy attribute="modified" direction="desc"/>
+				</query>
+				<query name="Recently closed" description="Closed in the last 12 hours" id="com.ibm.team.workitem.queries.predefined.recentlyClosed">
+					<where>
+						<condition operator="greater or equals">
+							<attribute name="resolutionDate"/>
+							<variable type="now" arguments="-12h"/>
+						</condition>
+					</where>
+					<orderBy attribute="resolutionDate" direction="desc"/>
+				</query>
+				<query name="Pending approvals for me" description="Pending requests for approvals or reviews that involve me" id="com.ibm.team.workitem.queries.predefined.pendingApprovals">
+					<where>
+						<condition operator="pending by">
+							<attribute name="internalApprovals"/>
+							<variable type="currentUser"/>
+						</condition>
+					</where>
+				</query>
+			</configuration-data>
+			
+			<configuration-data id="com.ibm.team.workitem.editor.configuration.quickinformationconfiguration" xmlns="http://com.ibm.team.workitem.editor/quickinformation">
+				<quickinformationConfiguration id="com.ibm.team.workitem.configuration.quickinformation.default">
+					<presentation title="Subscribers" kind="com.ibm.team.workitem.quickinformation.kind.subscriber">
+						<property key="linkTarget" value="com.ibm.team.workitem.attribute.subscriptions" />
+					</presentation>
+					<presentation title="Attachments" kind="com.ibm.team.workitem.quickinformation.kind.artifact">
+						<property key="linkTarget" value="com.ibm.team.workitem.presentation.attachments" />
+					</presentation>
+					<presentation title="Parent" kind="com.ibm.team.workitem.quickinformation.kind.workitem">
+						<property key="endpointId" value="com.ibm.team.workitem.linktype.parentworkitem/parent" />
+						<property key="linkTarget" value="com.ibm.team.workitem.presentation.links" />
+					</presentation>
+					<presentation title="Children" kind="com.ibm.team.workitem.quickinformation.kind.workitem">
+						<property key="endpointId" value="com.ibm.team.workitem.linktype.parentworkitem/children" />
+						<property key="linkTarget" value="com.ibm.team.workitem.presentation.links" />
+					</presentation>
+					<presentation title="Blocks" kind="com.ibm.team.workitem.quickinformation.kind.workitem">
+						<property key="endpointId" value="com.ibm.team.workitem.linktype.blocksworkitem/blocks" />
+						<property key="linkTarget" value="com.ibm.team.workitem.presentation.links" />
+					</presentation>
+					<presentation title="Depends On" kind="com.ibm.team.workitem.quickinformation.kind.workitem">
+						<property key="endpointId" value="com.ibm.team.workitem.linktype.blocksworkitem/dependsOn" />
+						<property key="linkTarget" value="com.ibm.team.workitem.presentation.links" />
+					</presentation>
+					<presentation title="Duplicate Of" kind="com.ibm.team.workitem.quickinformation.kind.workitem">
+						<property key="endpointId" value="com.ibm.team.workitem.linktype.duplicateworkitem/duplicateOf" />
+						<property key="linkTarget" value="com.ibm.team.workitem.presentation.links" />
+					</presentation>
+					<presentation title="Duplicated By" kind="com.ibm.team.workitem.quickinformation.kind.workitem">
+						<property key="endpointId" value="com.ibm.team.workitem.linktype.duplicateworkitem/duplicates" />
+						<property key="linkTarget" value="com.ibm.team.workitem.presentation.links" />
+					</presentation>
+					<presentation title="Related" kind="com.ibm.team.workitem.quickinformation.kind.workitem">
+						<property key="endpointId" value="com.ibm.team.workitem.linktype.relatedworkitem/" />
+						<property key="linkTarget" value="com.ibm.team.workitem.presentation.links" />
+					</presentation>
+					<presentation title="Copies" kind="com.ibm.team.workitem.quickinformation.kind.workitem">
+						<property key="endpointId" value="com.ibm.team.workitem.linktype.copiedworkitem/copies" />
+						<property key="linkTarget" value="com.ibm.team.workitem.presentation.links" />
+					</presentation>
+					<presentation title="Copied From" kind="com.ibm.team.workitem.quickinformation.kind.workitem">
+						<property key="endpointId" value="com.ibm.team.workitem.linktype.copiedworkitem/copiedFrom" />
+						<property key="linkTarget" value="com.ibm.team.workitem.presentation.links" />
+					</presentation>
+					<presentation title="Mentions" kind="com.ibm.team.workitem.quickinformation.kind.reference">
+						<property key="endpointId" value="com.ibm.team.workitem.linktype.textualReference/target" />
+						<property key="linkTarget" value="com.ibm.team.workitem.presentation.links" />
+					</presentation>
+					<presentation title="Mentioned By" kind="com.ibm.team.workitem.quickinformation.kind.reference">
+						<property key="endpointId" value="com.ibm.team.workitem.linktype.textualReference/source" />
+						<property key="linkTarget" value="com.ibm.team.workitem.presentation.links" />
+					</presentation>
+					<presentation title="Related Artifacts" kind="com.ibm.team.workitem.quickinformation.kind.reference">
+						<property key="endpointId" value="com.ibm.team.workitem.linktype.relatedartifact/relatedArtifact" />
+						<property key="linkTarget" value="com.ibm.team.workitem.presentation.links" />
+					</presentation>
+					<presentation title="Change Sets" kind="com.ibm.team.workitem.quickinformation.kind.reference">
+						<property key="endpointId" value="com.ibm.team.filesystem.workitems.change_set/com.ibm.team.scm.ChangeSet" />
+						<property key="linkTarget" value="com.ibm.team.workitem.presentation.links" />
+					</presentation>
+					<presentation title="Reported against Builds" kind="com.ibm.team.workitem.quickinformation.kind.reference">
+						<property key="endpointId" value="com.ibm.team.build.linktype.reportedWorkItems/com.ibm.team.build.common.link.reportedAgainstBuilds" />
+						<property key="linkTarget" value="com.ibm.team.workitem.presentation.links" />
+					</presentation>
+					<presentation title="Included in Builds" kind="com.ibm.team.workitem.quickinformation.kind.reference">
+						<property key="endpointId" value="com.ibm.team.build.linktype.includedWorkItems/com.ibm.team.build.common.link.includedInBuilds" />
+						<property key="linkTarget" value="com.ibm.team.workitem.presentation.links" />
+					</presentation>
+					<presentation title="External Connection" kind="com.ibm.team.workitem.quickinformation.kind.reference">
+						<property key="endpointId" value="com.ibm.team.interop.linktype.item/externalConnection" />
+						<property key="linkTarget" value="com.ibm.team.workitem.presentation.links" />
+					</presentation>
+					<presentation kind="com.ibm.team.workitem.quickinformation.kind.reference" title="SVN Revisions">
+						<property key="endpointId" value="com.ibm.team.scm.svn.linkType.workItem/source"/>
+					 	<property key="linkTarget" value="com.ibm.team.workitem.presentation.links"/>
+					</presentation>
+					<presentation title="Approvals" kind="com.ibm.team.workitem.quickinformation.kind.approval">
+						<property key="linkTarget" value="com.ibm.team.workitem.presentation.approvals" />
+					</presentation>
+				</quickinformationConfiguration>
+			</configuration-data>
+			
+			<configuration-data xmlns="http://com.ibm.team.workitem.editor/presentations" id="com.ibm.team.workitem.editor.configuration.presentations">
+			    <editor id="com.ibm.team.workitem.editor.default">
+			        <tab tabId="com.ibm.team.workitem.editor.default.internalHeader" title="none"/>
+			        <tab tabId="com.ibm.team.workitem.tab.overview" title="Overview"/>
+			        <tab tabId="com.ibm.team.workitem.tab.links" title="Links"/>
+			        <tab tabId="com.ibm.team.workitem.tab.approvals" title="Approvals"/>
+			        <tab tabId="com.ibm.team.workitem.tab.customAttributes" title="Custom">
+			            <property key="hideIfEmpty" value="true"/>
+			        </tab>
+			        <tab tabId="com.ibm.team.workitem.tab.history" title="History"/>
+			    </editor>
+			    <editor id="com.ibm.team.apt.planPreview">
+			        <tab tabId="com.ibm.team.apt.planPreview.default" title="Default"/>
+			    </editor>
+			    <editor id="com.ibm.team.workitem.web.inline">
+			        <tab tabId="com.ibm.team.workitem.web.inline.default" title="Default"/>
+			    </editor>
+			    <editor id="com.ibm.team.workitem.lightweight">
+			        <tab tabId="com.ibm.team.workitem.lightweight.editor" title="Other Work Item Editor Elements"/>
+			    </editor>
+			    <editor id="cz.ibm.editor.defect.default">
+			        <tab tabId="cz.ibm.editor.defect.default.internalHeader" title="none"/>
+			        <tab tabId="cz.ibm.tab.defect.overview" title="Overview"/>
+			        <tab tabId="com.ibm.team.workitem.tab.links" title="Links"/>
+			        <tab tabId="com.ibm.team.workitem.tab.approvals" title="Approvals"/>
+			        <tab tabId="com.ibm.team.workitem.tab.history" title="History"/>
+			        <tab tabId="cz.ibm.tab.reponseTime" title="Response time"/>
+			    </editor>
+			    <editor id="cz.ibm.editor.task.default">
+			        <tab tabId="cz.ibm.editor.task.default.internalHeader" title="none"/>
+			        <tab tabId="cz.ibm.tab.task.overview" title="Overview"/>
+			        <tab tabId="com.ibm.team.workitem.tab.links" title="Links"/>
+			        <tab tabId="com.ibm.team.workitem.tab.approvals" title="Approvals"/>
+			        <tab tabId="com.ibm.team.workitem.tab.history" title="History"/>
+			    </editor>
+			    <editor id="cz.ibm.editor.rr.default">
+			        <tab tabId="cz.ibm.editor.rr.default.internalHeader" title="none"/>
+			        <tab tabId="cz.ibm.tab.rr.overview" title="Overview"/>
+			        <tab tabId="com.ibm.team.workitem.tab.links" title="Links"/>
+			        <tab tabId="com.ibm.team.workitem.tab.approvals" title="Approvals"/>
+			        <tab tabId="com.ibm.team.workitem.tab.history" title="History"/>
+			    </editor>
+			    <section id="com.ibm.team.workitem.header.default">
+			        <presentation attributeId="com.ibm.team.workitem.attribute.summary"/>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			        <presentation kind="com.ibm.team.workitem.kind.workflow.state">
+			            <property key="labelVisible" value="false"/>
+			        </presentation>
+			        <presentation kind="com.ibm.team.workitem.kind.workflow.resolution">
+			            <property key="labelVisible" value="false"/>
+			        </presentation>
+			    </section>
+			    <tab id="com.ibm.team.apt.planPreview.default" layout="builtInHLayout">
+			        <section sectionId="com.ibm.team.apt.planPreview.default.section.summary" slot="top" title="Summary">
+			            <property key="noHeader" value="true"/>
+			        </section>
+			        <section sectionId="com.ibm.team.apt.planPreview.default.section.details" slot="left" title="Details"/>
+			        <section sectionId="com.ibm.team.workitem.section.quickinformation" slot="right" title="Quick Info">
+			            <property key="noHeader" value="true"/>
+			        </section>
+			        <section sectionId="com.ibm.team.workitem.section.description" slot="bottom" title="Description"/>
+			        <section sectionId="com.ibm.team.workitem.section.discussion" slot="bottom" title="Discussion">
+			            <property key="expanded" value="false"/>
+			        </section>
+			    </tab>
+			    <section id="com.ibm.team.workitem.section.history">
+			        <presentation id="com.ibm.team.workitem.presentation.history" kind="com.ibm.team.workitem.kind.internal.history"/>
+			    </section>
+			    <tab id="com.ibm.team.workitem.tab.overview" layout="builtInOverviewLayout">
+			        <section sectionId="com.ibm.team.workitem.section.details" slot="details" title="Details"/>
+			        <section sectionId="com.ibm.team.workitem.section.quickinformation" slot="quickInfo" title="Quick Information"/>
+			        <section sectionId="com.ibm.team.workitem.section.description" slot="description" title="Description"/>
+			        <section sectionId="com.ibm.team.workitem.section.discussion" slot="discussion" title="Discussion"/>
+			    </tab>
+			    <section id="com.ibm.team.workitem.section.approvals">
+			        <presentation id="com.ibm.team.workitem.presentation.approvals" kind="com.ibm.team.workitem.kind.internal.approvals">
+			            <property key="toBeLinkedPartId" value="com.ibm.team.workitem.presentation.discussion"/>
+			        </presentation>
+			    </section>
+			    <section id="com.ibm.team.workitem.lightweight.editor.section">
+			        <presentation id="com.ibm.team.workitem.presentation.teamArea" kind="com.ibm.team.workitem.kind.internal.teamarea"/>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.workitemtype" kind="com.ibm.team.workitem.kind.enumeration"/>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.summary"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.description" kind="com.ibm.team.workitem.kind.html">
+			            <property key="small" value="true"/>
+			        </presentation>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.version" kind="com.ibm.team.workitem.kind.internal.deliverable"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.severity" kind="com.ibm.team.workitem.kind.enumeration"/>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.category" kind="com.ibm.team.workitem.kind.internal.category"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.tags" kind="com.ibm.team.workitem.kind.internal.tags"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.owner">
+			            <property key="warningMessage" value="Owner does not belong to Team Area"/>
+			        </presentation>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.target" kind="com.ibm.team.workitem.kind.internal.target"/>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			    </section>
+			    <section id="com.ibm.team.workitem.section.details">
+			        <presentation attributeId="com.ibm.team.workitem.attribute.workitemtype" kind="com.ibm.team.workitem.kind.enumeration"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.version" kind="com.ibm.team.workitem.kind.internal.deliverable"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.creationdate">
+			            <property key="readonly" value="true"/>
+			        </presentation>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.creator">
+			            <property key="readonly" value="true"/>
+			        </presentation>
+			        <presentation id="com.ibm.team.workitem.presentation.teamArea" kind="com.ibm.team.workitem.kind.internal.teamarea"/>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.category" kind="com.ibm.team.workitem.kind.internal.category"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.tags" kind="com.ibm.team.workitem.kind.internal.tags"/>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.owner">
+			            <property key="warningMessage" value="Owner does not belong to Team Area"/>
+			        </presentation>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.priority" kind="com.ibm.team.workitem.kind.enumeration"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.target" kind="com.ibm.team.workitem.kind.internal.target"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.duration" kind="com.ibm.team.apt.kind.internal.estimate"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.timespent" kind="com.ibm.team.apt.kind.internal.timespent"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.duedate"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.resolutiondate">
+			            <property key="readonly" value="true"/>
+			            <property key="hideIfEmpty" value="true"/>
+			        </presentation>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.resolver">
+			            <property key="readonly" value="true"/>
+			            <property key="hideIfEmpty" value="true"/>
+			        </presentation>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			    </section>
+			    <tab id="com.ibm.team.workitem.web.inline.default" layout="builtInHLayout">
+			        <section sectionId="com.ibm.team.workitem.web.inline.default.summary" slot="top" title="Summary">
+			            <property key="noHeader" value="true"/>
+			        </section>
+			        <section sectionId="com.ibm.team.workitem.web.inline.default.details" slot="left" title="Details">
+			            <property key="noHeader" value="true"/>
+			        </section>
+			        <section sectionId="com.ibm.team.workitem.section.quickinformation" slot="right" title="Quick Info">
+			            <property key="noHeader" value="true"/>
+			        </section>
+			        <section sectionId="com.ibm.team.workitem.section.description" slot="bottom" title="Description"/>
+			        <section sectionId="com.ibm.team.workitem.section.discussion" slot="bottom" title="Discussion">
+			            <property key="expanded" value="false"/>
+			        </section>
+			    </tab>
+			    <section id="cz.ibm.section.responseTime.left">
+			        <presentation attributeId="com.ibm.team.workitem.attribute.creationdate" kind="com.ibm.team.workitem.kind.timestamp">
+			            <property key="readonly" value="true"/>
+			        </presentation>
+			        <presentation attributeId="cz.ibm.attr.responseTime.temp" kind="com.ibm.team.workitem.kind.string"/>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			    </section>
+			    <tab id="com.ibm.team.workitem.tab.history" layout="builtInHistoryLayout">
+			        <section sectionId="com.ibm.team.workitem.section.history" title="History"/>
+			    </tab>
+			    <tab id="com.ibm.team.workitem.lightweight.editor" layout="builtInHLayout">
+			        <section sectionId="com.ibm.team.workitem.lightweight.editor.section" title="Lightweight Creator"/>
+			    </tab>
+			    <section id="cz.ibm.section.task.details">
+			        <presentation attributeId="com.ibm.team.workitem.attribute.workitemtype" kind="com.ibm.team.workitem.kind.enumeration"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.priority" kind="com.ibm.team.workitem.kind.enumeration"/>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.category" kind="com.ibm.team.workitem.kind.internal.category" label="WMS Component"/>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.creator" kind="com.ibm.team.workitem.kind.contributor">
+			            <property key="readonly" value="true"/>
+			        </presentation>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.creationdate" kind="com.ibm.team.workitem.kind.timestamp">
+			            <property key="readonly" value="true"/>
+			        </presentation>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.owner" kind="com.ibm.team.workitem.kind.contributor" label="Assigned To"/>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			    </section>
+			    <tab id="cz.ibm.editor.rr.default.internalHeader" layout="internalHeader">
+			        <section sectionId="com.ibm.team.workitem.header.default" title="none"/>
+			    </tab>
+			    <section id="com.ibm.team.workitem.web.inline.default.details">
+			        <presentation kind="com.ibm.team.workitem.kind.workflow.state"/>
+			        <presentation kind="com.ibm.team.workitem.kind.workflow.resolution"/>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.severity" kind="com.ibm.team.workitem.kind.enumeration"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.version" kind="com.ibm.team.workitem.kind.internal.deliverable"/>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.category" kind="com.ibm.team.workitem.kind.internal.category"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.owner">
+			            <property key="warningMessage" value="Owner does not belong to Team Area"/>
+			        </presentation>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.priority" kind="com.ibm.team.workitem.kind.enumeration"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.target" kind="com.ibm.team.workitem.kind.internal.target"/>
+			    </section>
+			    <tab id="com.ibm.team.workitem.tab.approvals" layout="builtInApprovalsLayout">
+			        <section sectionId="com.ibm.team.workitem.section.approvals" title="Approvals"/>
+			    </tab>
+			    <tab id="cz.ibm.tab.defect.overview" layout="builtInOverviewLayout">
+			        <section sectionId="cz.ibm.section.defect.details" slot="details" title="Details"/>
+			        <section sectionId="com.ibm.team.workitem.section.quickinformation" slot="quickInfo" title="Quick Information"/>
+			        <section sectionId="com.ibm.team.workitem.section.description" slot="description" title="Description"/>
+			        <section sectionId="com.ibm.team.workitem.section.discussion" slot="discussion" title="Discussion"/>
+			    </tab>
+			    <tab id="com.ibm.team.workitem.editor.default.internalHeader" layout="internalHeader">
+			        <section sectionId="com.ibm.team.workitem.header.default" title="none"/>
+			    </tab>
+			    <tab id="com.ibm.team.workitem.tab.links" layout="builtInLinksLayout">
+			        <section sectionId="com.ibm.team.workitem.section.attachments" slot="attachments" title="Attachments"/>
+			        <section sectionId="com.ibm.team.workitem.section.subscribers" slot="subscribers" title="Subscribers"/>
+			        <section sectionId="com.ibm.team.workitem.section.links" slot="links" title="Links"/>
+			    </tab>
+			    <section id="com.ibm.team.workitem.section.subscribers">
+			        <presentation attributeId="com.ibm.team.workitem.attribute.subscriptions" kind="com.ibm.team.workitem.kind.contributorList"/>
+			    </section>
+			    <section id="com.ibm.team.apt.planPreview.default.section.details">
+			        <presentation attributeId="com.ibm.team.workitem.attribute.severity" kind="com.ibm.team.workitem.kind.enumeration"/>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.category" kind="com.ibm.team.workitem.kind.internal.category"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.tags" kind="com.ibm.team.workitem.kind.internal.tags"/>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.owner">
+			            <property key="warningMessage" value="Owner does not belong to Team Area"/>
+			        </presentation>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.priority" kind="com.ibm.team.workitem.kind.enumeration"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.target" kind="com.ibm.team.workitem.kind.internal.target"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.duration" kind="com.ibm.team.apt.kind.internal.estimate"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.timespent" kind="com.ibm.team.apt.kind.internal.timespent"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.duedate"/>
+			    </section>
+			    <tab id="cz.ibm.tab.reponseTime" layout="builtInCustomAttributesLayout">
+			        <section sectionId="cz.ibm.section.responseTime.left" slot="left" title="Response time"/>
+			    </tab>
+			    <section id="com.ibm.team.workitem.section.discussion">
+			        <presentation id="com.ibm.team.workitem.presentation.discussion" kind="com.ibm.team.workitem.kind.internal.discussion"/>
+			    </section>
+			    <tab id="cz.ibm.tab.rr.overview" layout="builtInOverviewLayout">
+			        <section sectionId="cz.ibm.section.rr.details" slot="details" title="Details"/>
+			        <section sectionId="com.ibm.team.workitem.section.quickinformation" slot="quickInfo" title="Quick Information"/>
+			        <section sectionId="com.ibm.team.workitem.section.description" slot="description" title="Description"/>
+			        <section sectionId="com.ibm.team.workitem.section.discussion" slot="discussion" title="Discussion"/>
+			    </tab>
+			    <section id="com.ibm.team.workitem.section.links">
+			        <presentation id="com.ibm.team.workitem.presentation.links" kind="com.ibm.team.workitem.kind.internal.links"/>
+			    </section>
+			    <section id="com.ibm.team.workitem.web.inline.default.summary">
+			        <presentation attributeId="com.ibm.team.workitem.attribute.summary" kind="com.ibm.team.workitem.kind.smallhtml">
+			            <property key="labelVisible" value="true"/>
+			        </presentation>
+			    </section>
+			    <tab id="cz.ibm.tab.task.overview" layout="builtInOverviewLayout">
+			        <section sectionId="cz.ibm.section.task.details" slot="details" title="Details"/>
+			        <section sectionId="com.ibm.team.workitem.section.quickinformation" slot="quickInfo" title="Quick information"/>
+			        <section sectionId="com.ibm.team.workitem.section.description" slot="description" title="Description"/>
+			        <section sectionId="com.ibm.team.workitem.section.discussion" slot="discussion" title="Discussion"/>
+			    </tab>
+			    <tab id="com.ibm.team.workitem.tab.customAttributes" layout="builtInCustomAttributesLayout">
+			        <section sectionId="com.ibm.team.workitem.section.collector_small" slot="left" title="Miscellaneous">
+			            <property key="width" value="small"/>
+			            <property key="autocollect" value="true"/>
+			        </section>
+			        <section sectionId="com.ibm.team.workitem.section.collector_wide" slot="right" title="Miscellaneous">
+			            <property key="width" value="wide"/>
+			            <property key="autocollect" value="true"/>
+			        </section>
+			    </tab>
+			    <tab id="cz.ibm.editor.defect.default.internalHeader" layout="internalHeader">
+			        <section sectionId="com.ibm.team.workitem.header.default" title="none"/>
+			    </tab>
+			    <section id="cz.ibm.section.rr.details">
+			        <presentation attributeId="com.ibm.team.workitem.attribute.workitemtype" kind="com.ibm.team.workitem.kind.enumeration"/>
+			        <presentation attributeId="cz.ibm.attribute.plannedBuildDate" kind="com.ibm.team.workitem.kind.timestamp"/>
+			        <presentation attributeId="cz.ibm.attribute.release" kind="com.ibm.team.workitem.kind.internal.deliverable"/>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.creationdate" kind="com.ibm.team.workitem.kind.timestamp">
+			            <property key="readonly" value="true"/>
+			        </presentation>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.creator" kind="com.ibm.team.workitem.kind.contributor">
+			            <property key="readonly" value="true"/>
+			        </presentation>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.owner" kind="com.ibm.team.workitem.kind.contributor"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.tags" kind="com.ibm.team.workitem.kind.internal.tags"/>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			    </section>
+			    <section id="com.ibm.team.apt.planPreview.default.section.summary">
+			        <presentation attributeId="com.ibm.team.workitem.attribute.summary" kind="com.ibm.team.workitem.kind.smallhtml">
+			            <property key="labelVisible" value="true"/>
+			        </presentation>
+			    </section>
+			    <tab id="cz.ibm.editor.task.default.internalHeader" layout="internalHeader">
+			        <section sectionId="com.ibm.team.workitem.header.default" title="none"/>
+			    </tab>
+			    <section id="cz.ibm.section.defect.details">
+			        <presentation attributeId="com.ibm.team.workitem.attribute.workitemtype" kind="com.ibm.team.workitem.kind.enumeration"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.priority" kind="com.ibm.team.workitem.kind.enumeration"/>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.category" kind="com.ibm.team.workitem.kind.internal.category" label="WMS Component"/>
+			        <presentation attributeId="cz.ibm.attr.downtimeFrom.temp" kind="com.ibm.team.workitem.kind.string"/>
+			        <presentation attributeId="cz.ibm.attr.downtimeTo.temp" kind="com.ibm.team.workitem.kind.string"/>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.creator" kind="com.ibm.team.workitem.kind.contributor">
+			            <property key="readonly" value="true"/>
+			        </presentation>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.creationdate" kind="com.ibm.team.workitem.kind.timestamp">
+			            <property key="readonly" value="true"/>
+			        </presentation>
+			        <presentation attributeId="com.ibm.team.workitem.attribute.owner" kind="com.ibm.team.workitem.kind.contributor" label="Assigned To"/>
+			        <presentation kind="com.ibm.team.workitem.kind.separator"/>
+			        <presentation attributeId="cz.ibm.attr.environment" kind="com.ibm.team.workitem.kind.enumeration"/>
+			    </section>
+			    <section id="com.ibm.team.workitem.section.quickinformation">
+			        <presentation id="com.ibm.team.workitem.presentation.quickinformation" kind="com.ibm.team.workitem.kind.internal.quickInformation">
+			            <property key="quickinformationConfiguration" value="com.ibm.team.workitem.configuration.quickinformation.default"/>
+			        </presentation>
+			    </section>
+			    <section id="com.ibm.team.workitem.section.description">
+			        <presentation attributeId="com.ibm.team.workitem.attribute.description" kind="com.ibm.team.workitem.kind.internal.description"/>
+			    </section>
+			    <section id="com.ibm.team.workitem.section.attachments">
+			        <presentation id="com.ibm.team.workitem.presentation.attachments" kind="com.ibm.team.workitem.kind.internal.attachments"/>
+			    </section>
+			</configuration-data>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+			<configuration-data xmlns="http://com.ibm.team.workitem.editor/workitemTypeEditorIdBinding" id="com.ibm.team.workitem.editor.configuration.workitemTypeEditorIdBinding">
+			    <workitemTypeEditorIdBinding editorId="com.ibm.team.workitem.lightweight.editor.section" target="com.ibm.team.workitem.editor.lightweight" workitemType="defect"/>
+			    <workitemTypeEditorIdBinding editorId="com.ibm.team.workitem.lightweight.editor.section" target="com.ibm.team.workitem.editor.lightweight" workitemType="enhancement"/>
+			    <workitemTypeEditorIdBinding editorId="com.ibm.team.workitem.lightweight.editor.section" target="com.ibm.team.workitem.editor.lightweight" workitemType="task"/>
+			    <workitemTypeEditorIdBinding editorId="com.ibm.team.apt.planPreview.default" target="com.ibm.team.apt.ui.internal.previewPane" workitemType="defect"/>
+			    <workitemTypeEditorIdBinding editorId="com.ibm.team.workitem.web.inline.default" target="com.ibm.team.workitem.web.inline" workitemType="defect"/>
+			    <workitemTypeEditorIdBinding editorId="com.ibm.team.apt.planPreview.default" target="com.ibm.team.apt.ui.internal.previewPane" workitemType="enhancement"/>
+			    <workitemTypeEditorIdBinding editorId="com.ibm.team.workitem.web.inline.default" target="com.ibm.team.workitem.web.inline" workitemType="enhancement"/>
+			    <workitemTypeEditorIdBinding editorId="com.ibm.team.apt.planPreview.default" target="com.ibm.team.apt.ui.internal.previewPane" workitemType="task"/>
+			    <workitemTypeEditorIdBinding editorId="com.ibm.team.workitem.web.inline.default" target="com.ibm.team.workitem.web.inline" workitemType="task"/>
+			    <workitemTypeEditorIdBinding editorId="cz.ibm.editor.defect.default" workitemType="cz.ibm.defect"/>
+			    <workitemTypeEditorIdBinding editorId="cz.ibm.editor.task.default" workitemType="task"/>
+			    <workitemTypeEditorIdBinding editorId="cz.ibm.editor.task.default" workitemType="cz.ibm.featurerequest"/>
+			    <workitemTypeEditorIdBinding editorId="cz.ibm.editor.rr.default" workitemType="cz.ibm.workitem.releaseRequest"/>
+			    <workitemTypeEditorIdBinding editorId="com.ibm.team.workitem.web.inline.default" target="com.ibm.team.workitem.web.inline" workitemType="cz.ibm.defect"/>
+			    <workitemTypeEditorIdBinding editorId="com.ibm.team.workitem.web.inline.default" target="com.ibm.team.workitem.web.inline" workitemType="cz.ibm.featurerequest"/>
+			    <workitemTypeEditorIdBinding editorId="com.ibm.team.workitem.lightweight.editor.section" target="com.ibm.team.workitem.editor.lightweight" workitemType="cz.ibm.defect"/>
+			    <workitemTypeEditorIdBinding editorId="com.ibm.team.workitem.lightweight.editor.section" target="com.ibm.team.workitem.editor.lightweight" workitemType="cz.ibm.featurerequest"/>
+			    <workitemTypeEditorIdBinding editorId="com.ibm.team.apt.planPreview.default" target="com.ibm.team.apt.ui.internal.previewPane" workitemType="cz.ibm.defect"/>
+			    <workitemTypeEditorIdBinding editorId="com.ibm.team.apt.planPreview.default" target="com.ibm.team.apt.ui.internal.previewPane" workitemType="cz.ibm.featurerequest"/>
+			</configuration-data>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+            <configuration-data xmlns="http://com.ibm.team.apt/topLevelPlanWorkItemBinding" id="com.ibm.team.apt.configuration.topLevelPlanWorkItemBinding">
+                <topLevelPlanWorkItemBinding workitemType="task"/>
+                <topLevelPlanWorkItemBinding workitemType="enhancement"/>
+                <topLevelPlanWorkItemBinding workitemType="cz.ibm.defect"/>
+            </configuration-data>
+            
+			<configuration-data xmlns="http://com.ibm.team.apt/workResourcesSpecification" id="com.ibm.team.apt.configuration.workResourcesSpecification">
+			    <workResourcesSpecification workDays="5" workHours="8"/>
+			</configuration-data>
+			<configuration-data xmlns="http://com.ibm.team.workitem/enumerations" id="com.ibm.team.workitem.configuration.enumerations">
+			    <enumeration attributeTypeId="priority">
+			        <literal icon="processattachment:/enumeration/unassigned.gif" id="priority.literal.l1" name="Unassigned"/>
+			        <literal default="true" icon="processattachment:/enumeration/low.gif" id="priority.literal.l2" name="Low"/>
+			        <literal icon="processattachment:/enumeration/medium.gif" id="priority.literal.l3" name="Medium"/>
+			        <literal icon="processattachment:/enumeration/high.gif" id="priority.literal.l4" name="High"/>
+			    </enumeration>
+			    <enumeration attributeTypeId="severity">
+			        <literal icon="processattachment:/enumeration/unassigned2.gif" id="severity.literal.l1" name="Unclassified"/>
+			        <literal icon="processattachment:/enumeration/minor.gif" id="severity.literal.l2" name="Minor"/>
+			        <literal default="true" icon="processattachment:/enumeration/normal.gif" id="severity.literal.l3" name="Normal"/>
+			        <literal icon="processattachment:/enumeration/major.gif" id="severity.literal.l4" name="Major"/>
+			        <literal icon="processattachment:/enumeration/critical.gif" id="severity.literal.l5" name="Critical"/>
+			        <literal icon="processattachment:/enumeration/blocker.gif" id="severity.literal.l6" name="Blocker"/>
+			    </enumeration>
+			    <enumeration attributeTypeId="cz.ibm.enum.environment">
+			        <literal default="true" id="cz.ibm.enum.environment.literal.l3" name="PROD"/>
+			        <literal id="cz.ibm.enum.environment.literal.l2" name="TEST"/>
+			        <literal id="cz.ibm.enum.environment.literal.l4" name="EDU"/>
+			        <literal id="cz.ibm.enum.environment.literal.l1" name="DEV"/>
+			    </enumeration>
+			</configuration-data>
+			
+			
+			
+			
+			
+		</data>
+	</project-configuration>
+	<team-configuration>
+		<permissions>
+		    <role id="default">
+		        <operation id="com.ibm.team.reports.service.report.display">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.reports.service.report.deployment">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.reports.service.folder.management">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.reports.service.query.deployment">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.workitem.server.saveQuery">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.workitem.server.deleteQuery">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.scm.server.deliver">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.scm.server.modifyStream">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.scm.server.modifyComponent">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.scm.server.modifyBaseline">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.scm.server.modifySnapshot">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.workitem.operation.workItemSave">
+		            <action id="action">
+		                <action id="cz.ibm.com.workflow.defect.action.a1"/>
+		                <action id="cz.ibm.workflow.task.action.a3"/>
+		                <action id="cz.ibm.workflow.featurerequest.action.a3"/>
+		            </action>
+		            <action id="modify">
+		                <action id="type"/>
+		                <action id="comments"/>
+		                <action id="resolution"/>
+		            </action>
+		        </operation>
+		    </role>
+		    <role id="team-member">
+		        <operation id="com.ibm.team.apt.server.saveIterationPlan">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.apt.server.deleteIterationPlan">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.cancelPendingRequest">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.deleteBuildDefinition">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.saveBuildDefinition">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.deleteBuildResult">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.saveBuildResult">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.deleteBuildEngine">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.saveBuildEngine">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.abandonBuild">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.requestBuild">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.buildLifecycle">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.process.server.saveTeamArea">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.process.server.generateTeamInvitation">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.workitem.server.deleteQuery">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.workitem.server.saveQuery">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.workitem.operation.workItemSave">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.scm.server.modifyStream">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.scm.server.modifyComponent">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.scm.server.deliver">
+		            <action id="any"/>
+		        </operation>
+		    </role>
+		    <role id="area_leader">
+		        <operation id="com.ibm.team.dashboard.server.saveTeamDashboard">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.workitem.operation.workItemSave">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.workitem.server.saveQuery">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.workitem.server.deleteQuery">
+		            <action id="any"/>
+		        </operation>
+		    </role>
+		    <role id="team_leader">
+		        <operation id="com.ibm.team.dashboard.server.saveTeamDashboard">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.workitem.operation.workItemSave">
+		            <action id="action">
+		                <action id="cz.ibm.com.workflow.defect.action.a5"/>
+		                <action id="cz.ibm.com.workflow.defect.action.a4"/>
+		                <action id="cz.ibm.com.workflow.defect.action.a3"/>
+		                <action id="cz.ibm.com.workflow.defect.action.a2"/>
+		                <action id="cz.ibm.com.workflow.defect.action.a1"/>
+		                <action id="cz.ibm.workflow.featurerequest.action.a1"/>
+		                <action id="cz.ibm.workflow.featurerequest.action.a2"/>
+		                <action id="cz.ibm.workflow.featurerequest.action.a3"/>
+		                <action id="cz.ibm.workflow.featurerequest.action.a4"/>
+		                <action id="cz.ibm.workflow.featurerequest.action.a5"/>
+		                <action id="cz.ibm.workflow.releaseRequest.action.a1"/>
+		            </action>
+		            <action id="bulk"/>
+		            <action id="create">
+		                <action id="any"/>
+		            </action>
+		            <action id="modify">
+		                <action id="any"/>
+		            </action>
+		            <action id="remove"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.cancelPendingRequest">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.deleteBuildDefinition">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.saveBuildDefinition">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.deleteBuildResult">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.saveBuildResult">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.deleteBuildEngine">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.saveBuildEngine">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.abandonBuild">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.requestBuild">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.buildLifecycle">
+		            <action id="any"/>
+		        </operation>
+		    </role>
+		    <role id="reporter">
+		        <operation id="com.ibm.team.workitem.operation.workItemSave">
+		            <action id="action">
+		                <action id="cz.ibm.com.workflow.defect.action.a1"/>
+		                <action id="cz.ibm.workflow.releaseRequest.action.a1"/>
+		                <action id="cz.ibm.workflow.featurerequest.action.a3"/>
+		                <action id="cz.ibm.workflow.task.action.a3"/>
+		                <action id="cz.ibm.workflow.featurerequest.action.a2"/>
+		                <action id="cz.ibm.com.workflow.defect.action.a3"/>
+		            </action>
+		            <action id="bulk"/>
+		            <action id="create">
+		                <action id="any"/>
+		            </action>
+		            <action id="modify">
+		                <action id="category"/>
+		                <action id="comments"/>
+		                <action id="cz.ibm.attr.environment"/>
+		                <action id="description"/>
+		                <action id="references">
+		                    <action id="any"/>
+		                </action>
+		                <action id="severity"/>
+		                <action id="subscriptions"/>
+		                <action id="summary"/>
+		                <action id="tags">
+		                    <action id="any"/>
+		                </action>
+		                <action id="version"/>
+		            </action>
+		        </operation>
+		    </role>
+		    <role id="project_leader">
+		        <operation id="com.ibm.team.build.server.saveBuildDefinition">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.saveBuildEngine">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.saveBuildResult">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.cancelPendingRequest">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.deleteBuildDefinition">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.deleteBuildResult">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.deleteBuildEngine">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.abandonBuild">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.requestBuild">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.buildLifecycle">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.dashboard.server.saveTeamDashboard">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.apt.server.deleteIterationPlan">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.apt.server.saveIterationPlan">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.process.server.saveTeamArea">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.process.server.generateTeamInvitation">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.workitem.operation.workItemSave">
+		            <action id="any"/>
+		        </operation>
+		    </role>
+		    <role id="build_engine">
+		        <operation id="com.ibm.team.build.server.cancelPendingRequest">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.deleteBuildDefinition">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.saveBuildDefinition">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.deleteBuildResult">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.saveBuildResult">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.deleteBuildEngine">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.saveBuildEngine">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.abandonBuild">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.requestBuild">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.buildLifecycle">
+		            <action id="any"/>
+		        </operation>
+		    </role>
+		    <role id="release_manager">
+		        <operation id="com.ibm.team.build.server.cancelPendingRequest">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.deleteBuildDefinition">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.saveBuildDefinition">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.deleteBuildResult">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.saveBuildResult">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.deleteBuildEngine">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.saveBuildEngine">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.abandonBuild">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.requestBuild">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.buildLifecycle">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.workitem.operation.workItemSave">
+		            <action id="action">
+		                <action id="any"/>
+		            </action>
+		            <action id="create">
+		                <action id="any"/>
+		            </action>
+		            <action id="modify">
+		                <action id="any"/>
+		            </action>
+		        </operation>
+		        <operation id="com.ibm.team.interop.server.synchronize">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.apt.server.saveIterationPlan">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.apt.server.deleteIterationPlan">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.reports.service.report.display">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.reports.service.report.deployment">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.reports.service.folder.management">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.reports.service.query.deployment">
+		            <action id="any"/>
+		        </operation>
+		    </role>
+		    <role id="deployer">
+		        <operation id="com.ibm.team.build.server.cancelPendingRequest">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.deleteBuildDefinition">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.saveBuildDefinition">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.deleteBuildResult">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.saveBuildResult">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.deleteBuildEngine">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.saveBuildEngine">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.abandonBuild">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.requestBuild">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.build.server.buildLifecycle">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.workitem.operation.workItemSave">
+		            <action id="action">
+		                <action id="cz.ibm.workflow.releaseRequest.action.a7"/>
+		            </action>
+		            <action id="modify">
+		                <action id="cz.ibm.attribute.release"/>
+		            </action>
+		        </operation>
+		    </role>
+		    <role id="test_manager">
+		        <operation id="com.ibm.team.workitem.operation.workItemSave">
+		            <action id="action">
+		                <action id="cz.ibm.workflow.releaseRequest.action.a8"/>
+		                <action id="cz.ibm.workflow.releaseRequest.action.a2"/>
+		            </action>
+		        </operation>
+		    </role>
+		    <role id="DatasysPM">
+		        <operation id="com.ibm.team.workitem.operation.workItemSave">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.workitem.server.saveQuery">
+		            <action id="any"/>
+		        </operation>
+		        <operation id="com.ibm.team.workitem.server.deleteQuery">
+		            <action id="any"/>
+		        </operation>
+		    </role>
+		</permissions>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<behavior>
+		    <role id="team-member">
+		        <operation id="com.ibm.team.workitem.operation.workItemSave">
+		            <preconditions>
+		                <precondition xmlns="http://com.ibm.team.workitem/requiredProperties" description="Work items must be Filed Against a specific category and a Summary must be provided so that the team can quickly evaluate who is responsible for the issue." id="com.ibm.team.workitem.advisor.requiredProperties" name="Required Properties">
+		                    <properties workItemTypeCategory="com.ibm.team.workitem.workItemType">
+		                        <property id="summary"/>
+		                        <property id="category"/>
+		                    </properties>
+		                </precondition>
+		            </preconditions>
+		        </operation>
+		        <operation id="com.ibm.team.scm.client.deliver">
+		            <preconditions>
+		                <precondition xmlns="http://com.ibm.team.process/requireWorkItem" description="All change sets should be associated with a work item which is planned for the current iteration.&#10;&#10;This makes it easier for the team to track its progress through the iteration and allows other users to understand why your changes were made." id="com.ibm.team.process.deliver.requireWorkItem" name="Descriptive Change Sets" overrulable="true">
+		                    <requires value="workitem-or-comment">
+		                        <workitem owner="optional" target="optional"/>
+		                    </requires>
+		                </precondition>
+		            </preconditions>
+		        </operation>
+		        <operation id="com.ibm.team.process.server.generateTeamInvitation">
+		            <followup-actions>
+		                <followup-action xmlns="http://com.ibm.team.process/createInvitationWorkItems" description="Creates an initial set of work items for the user who is invited to the team." id="com.ibm.team.process.definitions.server.createInvitationWorkItems" name="Create Initial Work Items">
+		                    <workitems>
+		                        <workitem categoryPath="${project-area-name}" htmlDescription="Create a Repository Workspace&lt;br/&gt;&lt;br/&gt;To create a new repository workspace to work with your new Jazz team:&lt;br/&gt;&lt;br/&gt;1. In the &lt;b&gt;Team Artifacts&lt;/b&gt; view, expand the &lt;b&gt;My Team Areas&lt;/b&gt; node.&lt;br/&gt;&lt;br/&gt;2. Open the team area you have joined by double clicking on the team area.&lt;br/&gt;&lt;br/&gt;3. In the &lt;b&gt;Team Artifacts&lt;/b&gt; section of the opened &lt;b&gt;Team Area&lt;/b&gt; editor, expand the &lt;b&gt;Streams&lt;/b&gt; node.&lt;br/&gt;&lt;br/&gt;4. Right click on the stream and select &lt;b&gt;New Repository Workspace...&lt;/b&gt;.&lt;br/&gt;&lt;br/&gt;5. Specify the repository workspace name. Click &lt;b&gt;Next&lt;/b&gt;.&lt;br/&gt;&lt;br/&gt;6. Click &lt;b&gt;Finish&lt;/b&gt;.&lt;br/&gt;&lt;br/&gt;You now have a repository workspace loaded with all the components of the team's stream.&lt;br/&gt;&lt;br/&gt;For additional details on using Jazz Source Control, consult the&lt;br/&gt;&lt;a href=&quot;http://publib.boulder.ibm.com/infocenter/rtc/v1r0m0/topic/com.ibm.team.scm.doc/topics/c_intro.html&quot;&gt;Getting Started with Jazz Source Control&lt;/a&gt; help topic.&lt;br/&gt;&lt;br/&gt;See any terms you don't recognize? You may also wish to consult the &lt;a href=&quot;http://publib.boulder.ibm.com/infocenter/rtc/v1r0m0/topic/com.ibm.team.platform.doc/topics/c_jazz-platform-quick-ref.html&quot;&gt;Jazz Platform Quick Reference&lt;/a&gt;." summary="[Joining a Team] Create a Repository Workspace" type="task"/>
+		                        <workitem categoryPath="${project-area-name}" htmlDescription="Find your work items&lt;br/&gt;&lt;br/&gt;When you accepted the invitation to join the team, work items like this one were created for the tasks you need to perform to complete joining the team.&lt;br/&gt;&lt;br/&gt;At any time, if you wish to find the work items that are assigned to you, you can use the &lt;b&gt;My Work&lt;/b&gt; or &lt;b&gt;Team Central&lt;/b&gt; views.&lt;br/&gt;&lt;br/&gt;There are also a number of default queries created for you. To browse these queries:&lt;br/&gt;&lt;br/&gt;1. Open the &lt;b&gt;Team Artifacts View&lt;/b&gt; and expand the node corresponding to the connected project area of the team you just joined.&lt;br/&gt;&lt;br/&gt;2. Expand the &lt;b&gt;Work Items&lt;/b&gt; node.&lt;br/&gt;&lt;br/&gt;3. Expand the &lt;b&gt;Shared Queries&lt;/b&gt; node.&lt;br/&gt;&lt;br/&gt;4. Expand the &lt;b&gt;Predefined&lt;/b&gt; node.&lt;br/&gt;&lt;br/&gt;5. Double click on the &lt;b&gt;Open assigned to me&lt;/b&gt; query.&lt;br/&gt;&lt;br/&gt;The &lt;b&gt;Work Items&lt;/b&gt; view will open and display your assigned work items.&lt;br/&gt;&lt;br/&gt;For additional details on using Jazz Work Items, consult the&lt;br/&gt;&lt;a href=&quot;http://publib.boulder.ibm.com/infocenter/rtc/v1r0m0/topic/com.ibm.team.workitem.doc/topics/t_getting_started.html&quot;&gt;Getting Started with Work Items&lt;/a&gt; help topic.&lt;br/&gt;&lt;br/&gt;See any terms you don't recognize? You may also wish to consult the &lt;a href=&quot;http://publib.boulder.ibm.com/infocenter/rtc/v1r0m0/topic/com.ibm.team.platform.doc/topics/c_jazz-platform-quick-ref.html&quot;&gt;Jazz Platform Quick Reference&lt;/a&gt;." summary="[Joining a Team] Find Your Work Items" type="task"/>
+		                        <workitem categoryPath="${project-area-name}" htmlDescription="Set up instant messaging&lt;br/&gt;&lt;br/&gt;To set up instant messaging inside your Jazz client, consult the &lt;a href=&quot;http://publib.boulder.ibm.com/infocenter/rtc/v1r0m0/index.jsp?topic=/com.ibm.team.collaboration.doc/topics/t_connect_st.html&quot;&gt;Connect to a local Sametime or Notes application&lt;/a&gt; or &lt;a href=&quot;http://publib.boulder.ibm.com/infocenter/rtc/v1r0m0/topic/com.ibm.team.collaboration.doc/topics/t_connect_jabber.html&quot;&gt;Connect to a Jabber server&lt;/a&gt; help topics." summary="[Joining a Team] Set Up Instant Messaging" type="task"/>
+		                    </workitems>
+		                </followup-action>
+		            </followup-actions>
+		        </operation>
+		        <operation id="com.ibm.team.process.client.acceptTeamInvitation">
+		            <followup-actions>
+		                <followup-action description="Show initial work items created when accepting team invitation." id="com.ibm.team.process.client.runAssignedWorkitemsQueryForAcceptInvitation" name="Show Work Items"/>
+		            </followup-actions>
+		        </operation>
+		    </role>
+		    <role id="default">
+		        <operation id="com.ibm.team.workitem.operation.workItemSave">
+		            <preconditions>
+		                <precondition xmlns="http://com.ibm.team.workitem/requiredProperties" description="Verifies that a work item can only be saved if all required attributes are given. " id="com.ibm.team.workitem.advisor.requiredProperties" name="Required Properties">
+		                    <properties workItemTypeCategory="cz.ibm.workitemcategory.defect">
+		                        <property id="com.ibm.team.workitem.attribute.summary"/>
+		                        <property id="com.ibm.team.workitem.attribute.category"/>
+		                    </properties>
+		                    <properties workItemTypeCategory="cz.ibm.workitemcategory.task">
+		                        <property id="com.ibm.team.workitem.attribute.summary"/>
+		                        <property id="com.ibm.team.workitem.attribute.category"/>
+		                    </properties>
+		                    <properties workItemTypeCategory="cz.ibm.workitemcategory.releaseRequest">
+		                        <property id="com.ibm.team.workitem.attribute.summary"/>
+		                    </properties>
+		                    <properties workItemTypeCategory="cz.ibm.workitemcategory.featurerequest">
+		                        <property id="com.ibm.team.workitem.attribute.summary"/>
+		                    </properties>
+		                </precondition>
+		            </preconditions>
+		        </operation>
+		    </role>
+		</behavior>
+		
+		
+			
+		<iteration-type id="development-iteration">
+			<permissions>
+			    <role id="area_leader">
+			        <operation id="com.ibm.team.workitem.server.saveQuery"/>
+			    </role>
+			</permissions>
+			
+		</iteration-type>
+	</team-configuration>
+</process-specification>
