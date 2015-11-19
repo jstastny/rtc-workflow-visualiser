@@ -69,5 +69,9 @@ The program uses Graphviz for diagram drawing. You must have Graphviz installed 
 ### Binary
 JAR binary available at http://storage.stastnarodina.com/workflow-visualiser/visualiser.jar
 
+## License
+
+Pro program is distributed under Apache License, Version 2.0. For the license agreement of the used libraries see the appropriate license agreement included in the distribution.
+
 ## Build status
 [![Build Status](https://travis-ci.org/jstastny/rtc-workflow-visualiser.svg?branch=master)](https://travis-ci.org/jstastny/rtc-workflow-visualiser)
