@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>rtc.cz.ibm.com</groupId>
   <artifactId>workflow-visualiser</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2</version>
   <build>
   	<sourceDirectory>${basedir}/com</sourceDirectory>
   	<plugins>
@@ -50,6 +50,10 @@
   	</plugins>
   </build>
   <repositories>
+    <repository>
+        <id>local-repo</id>
+        <url>file://${basedir}/repo</url>
+    </repository>
   </repositories>
   <dependencies>
   	<dependency>
@@ -58,11 +62,9 @@
 	    <version>1.6.1</version>
 	</dependency>
 	<dependency>
-      <groupId>jars.gnu</groupId>
-      <artifactId>jars</artifactId>
+      <groupId>jargs.gnu</groupId>
+      <artifactId>jargs</artifactId>
       <version>1.0</version>
-      <scope>system</scope>
-      <systemPath>${pom.basedir}/lib/jargs.jar</systemPath>
     </dependency>
   	<dependency>
   		<groupId>jaxen</groupId>
