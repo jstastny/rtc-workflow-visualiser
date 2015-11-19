@@ -4,20 +4,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Workflow {
-	
+
 	private String id;
 	private String description;
 	private String name;
-	
-	private Set<Resolution> resolutions = new HashSet<Resolution>();
-	private Set<Action> actions = new HashSet<Action>();
-	private Set<State> states = new HashSet<State>();
-	
+
+	private Set<Resolution> resolutions = new HashSet<>();
+	private Set<Action> actions = new HashSet<>();
+	private Set<State> states = new HashSet<>();
+
 	private Action startAction;
 	private Action reopenAction;
 	private Action resolveAction;
-	
-	
+
+
 	/**
 	 * Resolution by id. Null if it does not exist.
 	 * @param id Resolution id
@@ -29,11 +29,11 @@ public class Workflow {
 				return res;
 			}
 		}
-		
+
 		return null;
 	}
-	
-	
+
+
 	/**
 	 * Action by id. Null if it does not exist.
 	 * @param id Action id
@@ -47,7 +47,7 @@ public class Workflow {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * State by id. Null if it does not exist.
 	 * @param id State id
@@ -59,18 +59,18 @@ public class Workflow {
 				return state;
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	public Set<State> getStatesByGroup(Group group) {
-		Set<State> out = new HashSet<State>();
+		Set<State> out = new HashSet<>();
 		for(State state: states) {
 			if(state.getGroup() == group) {
 				out.add(state);
 			}
 		}
-		
+
 		return out;
 	}
 
@@ -255,12 +255,12 @@ public class Workflow {
 		}
 		return true;
 	}
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 
 }

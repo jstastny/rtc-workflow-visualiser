@@ -32,7 +32,7 @@ public class Main {
 	private static String filename;
 	
 	/**
-	 * @param args
+	 * @param args Command line arguments
 	 */
 	public static void main(String[] args) {
 		
@@ -73,17 +73,15 @@ public class Main {
 					System.out.println("Successfully created " + outputFile.getAbsolutePath());
 				}
 				
-				String line = null;
+				String line;
 
 				BufferedReader outReader = new BufferedReader(new InputStreamReader(stdout));
-				line = null;
 				while((line = outReader.readLine()) != null) {
 					System.out.println(line);
 				}
 				stdout.close();
 				
 				BufferedReader errReader = new BufferedReader(new InputStreamReader(stderr));
-				line = null;
 				while((line = errReader.readLine()) != null) {
 					System.err.println(line);
 				}
@@ -186,9 +184,6 @@ public class Main {
 			writer = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(outputFile)));
 			writer.write(source);
 			System.out.println("Source successfully saved to " + outputFile);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -217,8 +212,8 @@ public class Main {
 	 */
 	public static String getDotSource(Workflow workflow) {
 		StringBuilder out = new StringBuilder();
-		out.append("digraph \"" + workflow.getId() + "\" {").append(NL);
-		out.append("label=\"" + utf2ascii(workflow.getName()) + "\" ");
+		out.append("digraph \"").append(workflow.getId()).append("\" {").append(NL);
+		out.append("label=\"").append(utf2ascii(workflow.getName())).append("\" ");
 		out.append(NL);
 		out.append("fontsize=20");
 		out.append(NL);
@@ -227,12 +222,12 @@ public class Main {
 		
 		
 		// So that there are no duplicate edges for resolutions
-		Map<Resolution, HashSet<State>> drawnResolutions = new HashMap<Resolution, HashSet<State>>();
+		Map<Resolution, HashSet<State>> drawnResolutions = new HashMap<>();
 		
 		
 		// All the states
 		for(State state: workflow.getStates()) {
-			out.append("\"" + state.getId() + "\" ");
+			out.append("\"").append(state.getId()).append("\" ");
 			out.append("[");
 			switch(state.getGroup()) {
 			case OPEN:
@@ -251,7 +246,7 @@ public class Main {
 			}
 			// Not solving the reopen and resolve states here
 			
-			out.append("label=\""+ utf2ascii(state.getName()) +"\"");
+			out.append("label=\"").append(utf2ascii(state.getName())).append("\"");
 			
 			out.append("]");
 			out.append(NL);
@@ -260,9 +255,9 @@ public class Main {
 			
 			// Iterate over the actions
 			for(Action action: state.getActions()) {
-				out.append("\"" + state.getId() + "\" -> " + "\"" + action.getTargetState().getId() + "\" ");
+				out.append("\"").append(state.getId()).append("\" -> ").append("\"").append(action.getTargetState().getId()).append("\" ");
 				out.append("[");
-				out.append("label=\"" + utf2ascii(action.getName()) + "\", fontsize=11");
+				out.append("label=\"").append(utf2ascii(action.getName())).append("\", fontsize=11");
 				
 				out.append("]");
 				out.append(NL);
@@ -272,13 +267,13 @@ public class Main {
 						
 						if(!drawnResolutions.containsKey(resolution)) {
 						    drawnResolutions.put(resolution, new HashSet<State>());
-							out.append("\"" +resolution.getId() + "\" [label=\"" + utf2ascii(resolution.getName()) + "\", shape=box, fontsize=10]");
+							out.append("\"").append(resolution.getId()).append("\" [label=\"").append(utf2ascii(resolution.getName())).append("\", shape=box, fontsize=10]");
 							out.append(NL);
 						}
 						
 						if (!drawnResolutions.get(resolution).contains(action.getTargetState())){
 						    drawnResolutions.get(resolution).add(action.getTargetState());
-						    out.append("\"" + action.getTargetState().getId() + "\" -> " + "\"" + resolution.getId() + "\" ");
+						    out.append("\"").append(action.getTargetState().getId()).append("\" -> ").append("\"").append(resolution.getId()).append("\" ");
 	                        out.append("[");
 	                        out.append("style=dotted");
 	                        out.append("]");
@@ -313,7 +308,7 @@ public class Main {
 		// initial state on the top
 		
 		if(workflow.getStartAction() != null) {
-			out.append("{rank=min; \"" + workflow.getStartAction().getTargetState().getId() + "\" }");
+			out.append("{rank=min; \"").append(workflow.getStartAction().getTargetState().getId()).append("\" }");
 		}
 
 		
@@ -322,9 +317,6 @@ public class Main {
 		
 		
 		return out.toString();
-		
-		
-		//throw new UnsupportedOperationException();
 	}
 	
 	

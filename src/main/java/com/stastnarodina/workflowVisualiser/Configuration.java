@@ -78,7 +78,7 @@ public class Configuration {
 	}
 
 	/**
-	 * @param dotLocation Set if we should show resolution values
+	 * @param showResolution Set if we should show resolution values
 	 */
 	public static void setShowResolution(boolean showResolution) {
 		Configuration.showResolution = showResolution;

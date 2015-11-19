@@ -9,7 +9,7 @@ public enum Group {
 	
 	private String name;
 	
-	private Group(String name) {
+	Group(String name) {
 		this.name = name;
 	}
 	

@@ -3,14 +3,17 @@ package stastnarodina.workflowVisualiser;
 import java.util.HashSet;
 import java.util.Set;
 
-public class State {
+public class Action {
 	private String id;
 	private String name;
-	private boolean showResolution = false;
-	private Group group;
-	private Set<Action> actions = new HashSet<Action>();
+	private State targetState;
 	
-	public State() {}
+	private Set<Resolution> resolutions = new HashSet<>();
+	
+	
+	public Action() {
+	}
+
 
 	/**
 	 * @return the id
@@ -19,12 +22,14 @@ public class State {
 		return id;
 	}
 
+
 	/**
 	 * @param id the id to set
 	 */
 	public void setId(String id) {
 		this.id = id;
 	}
+
 
 	/**
 	 * @return the name
@@ -33,6 +38,7 @@ public class State {
 		return name;
 	}
 
+
 	/**
 	 * @param name the name to set
 	 */
@@ -40,55 +46,47 @@ public class State {
 		this.name = name;
 	}
 
-	/**
-	 * @return the showResolution
-	 */
-	public boolean isShowResolution() {
-		return showResolution;
-	}
 
 	/**
-	 * @param showResolution the showResolution to set
+	 * @return the targetState
 	 */
-	public void setShowResolution(boolean showResolution) {
-		this.showResolution = showResolution;
+	public State getTargetState() {
+		return targetState;
 	}
 
-	/**
-	 * @return the group
-	 */
-	public Group getGroup() {
-		return group;
-	}
 
 	/**
-	 * @param group the group to set
+	 * @param targetState the targetState to set
 	 */
-	public void setGroup(Group group) {
-		this.group = group;
+	public void setTargetState(State targetState) {
+		this.targetState = targetState;
 	}
 
-	/**
-	 * @return the actions
-	 */
-	public Set<Action> getActions() {
-		return actions;
-	}
 
 	/**
-	 * @param actions the actions to set
+	 * @return the resolutions
 	 */
-	public void setActions(Set<Action> actions) {
-		this.actions = actions;
+	public Set<Resolution> getResolutions() {
+		return resolutions;
 	}
+
+
+	/**
+	 * @param resolutions the resolutions to set
+	 */
+	public void setResolutions(Set<Resolution> resolutions) {
+		this.resolutions = resolutions;
+	}
+
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "State [id=" + id + ", name=" + name + "]";
+		return "Action [id=" + id + ", name=" + name + "]";
 	}
+
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -101,6 +99,7 @@ public class State {
 		return result;
 	}
 
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -112,10 +111,10 @@ public class State {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof State)) {
+		if (!(obj instanceof Action)) {
 			return false;
 		}
-		State other = (State) obj;
+		Action other = (Action) obj;
 		if (id == null) {
 			if (other.id != null) {
 				return false;
@@ -125,9 +124,7 @@ public class State {
 		}
 		return true;
 	}
-	
-	
-	
+
 	
 	
 	

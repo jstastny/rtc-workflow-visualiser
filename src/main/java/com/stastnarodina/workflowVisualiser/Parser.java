@@ -26,7 +26,7 @@ public class Parser {
 	public Parser() {}
 	
 	public Set<Workflow> parse(InputStream is) throws ParserConfigurationException, SAXException, IOException, DocumentException {
-		Set<Workflow> workflows = new HashSet<Workflow>();
+		Set<Workflow> workflows = new HashSet<>();
 		  
 		
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
