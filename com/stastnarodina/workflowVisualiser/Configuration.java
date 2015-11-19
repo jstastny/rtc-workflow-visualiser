@@ -7,6 +7,8 @@ public class Configuration {
 	private static String dotLocation = "/usr/bin/dot";
 	//private static String tempDir = "System.getProperty(\"java.io.tmpdir\"))"
 	private static boolean saveDotSource = false;
+	private static boolean showResolution = true;
+
 	
 	
 	/**
@@ -68,9 +70,18 @@ public class Configuration {
 		Configuration.saveDotSource = saveDotSource;
 	}
 	
-	
-	
-	
-	
+	/**
+	 * @return True to show resolution values
+	 */
+	public static boolean showResolution() {
+		return showResolution;
+	}
+
+	/**
+	 * @param dotLocation Set if we should show resolution values
+	 */
+	public static void setShowResolution(boolean showResolution) {
+		Configuration.showResolution = showResolution;
+	}
 	
 }
