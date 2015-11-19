@@ -67,7 +67,7 @@ java -jar ~/visualiser.jar -o ~/diagrams process.xml
 The program uses Graphviz for diagram drawing. You must have Graphviz installed on your computer to be able to run the program. It can be freely downloaded from http://www.graphviz.org/Download.php
 
 ### Binary
-JAR binary available at http://storage.stastnarodina.com/workflow-visualiser/visualiser.jar
+Binaries are available with the releases at https://github.com/jstastny/rtc-workflow-visualiser/releases
 
 ## License
 
