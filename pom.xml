@@ -4,6 +4,13 @@
   <artifactId>workflow-visualiser</artifactId>
   <version>0.0.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
+
+	<scm>
+		<url>https://github.com/jstastny/rtc-workflow-visualiser</url>
+		<connection>scm:git:git@github.com:jstastny/rtc-workflow-visualiser.git</connection>
+		<developerConnection>scm:git:git@github.com:jstastny/rtc-workflow-visualiser.git</developerConnection>
+	</scm>
+
   <build>
   	<plugins>
   		<plugin>
