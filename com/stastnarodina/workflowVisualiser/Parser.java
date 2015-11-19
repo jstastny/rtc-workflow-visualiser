@@ -2,6 +2,8 @@ package com.stastnarodina.workflowVisualiser;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +16,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Node;
 import org.dom4j.io.DOMReader;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class Parser {
@@ -29,7 +32,13 @@ public class Parser {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setNamespaceAware(false); // never forget this!
 		DocumentBuilder builder = factory.newDocumentBuilder();
-		org.w3c.dom.Document doc = builder.parse(is);
+		
+		//Let SAX figure the correct format: See http://stackoverflow.com/questions/3482494/howto-let-the-sax-parser-determine-the-encoding-from-the-xml-declaration
+		Reader isr = new InputStreamReader(is);
+		InputSource iSour = new InputSource();
+		iSour.setCharacterStream(isr);
+		
+		org.w3c.dom.Document doc = builder.parse(iSour);
 		
 		DOMReader domReader = new DOMReader();
 		

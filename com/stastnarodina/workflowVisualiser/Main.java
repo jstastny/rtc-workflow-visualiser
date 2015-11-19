@@ -15,8 +15,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.Normalizer;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
 
 
 
@@ -107,6 +108,7 @@ public class Main {
 		Option out = parser.addStringOption('o', "out");
 		Option format = parser.addStringOption('f', "format");
 		Option source = parser.addBooleanOption('s', "source");
+		Option hideResolution = parser.addBooleanOption("hide-resolutions");
 		
 		 try {
             parser.parse(args);
@@ -143,6 +145,10 @@ public class Main {
             	Configuration.setSaveDotSource(true);
             }
             
+            Boolean hideResolVal = (Boolean) parser.getOptionValue(hideResolution, Boolean.FALSE);
+            if(hideResolVal != null) {
+                Configuration.setShowResolution(!hideResolVal);
+            }
             
             String[] remaining = parser.getRemainingArgs();
             if(remaining.length == 0) {
@@ -168,7 +174,8 @@ public class Main {
 				"  -d|--dot Location of dot executable\n" +
 				"  -o|--out Output directory\n" +
 				"  -f|--format Output format (see the output formats of dot)\n" +
-				"  -s|--source Save the DOT source file in the output directory";
+				"  -s|--source Save the DOT source file in the output directory\n" +
+				"  --hide-resolutions Set it to avoid displaying resolutions";
 	}
 	
 	private static void saveSource(String source, Workflow workflow) {
@@ -220,7 +227,7 @@ public class Main {
 		
 		
 		// So that there are no duplicate edges for resolutions
-		Set<Resolution> drawnResolutions = new HashSet<Resolution>();
+		Map<Resolution, HashSet<State>> drawnResolutions = new HashMap<Resolution, HashSet<State>>();
 		
 		
 		// All the states
@@ -260,20 +267,24 @@ public class Main {
 				out.append("]");
 				out.append(NL);
 				
-				if(action.getTargetState().isShowResolution()) {
+				if((action.getTargetState().isShowResolution() && (Configuration.showResolution()))) {
 					for(Resolution resolution: action.getResolutions()) {
 						
-						if(drawnResolutions.add(resolution)) {
-							
+						if(!drawnResolutions.containsKey(resolution)) {
+						    drawnResolutions.put(resolution, new HashSet<State>());
 							out.append("\"" +resolution.getId() + "\" [label=\"" + utf2ascii(resolution.getName()) + "\", shape=box, fontsize=10]");
 							out.append(NL);
-							out.append("\"" + action.getTargetState().getId() + "\" -> " + "\"" + resolution.getId() + "\" ");
-							out.append("[");
-							out.append("style=dotted");
-							out.append("]");
-							out.append(NL);
-							
 						}
+						
+						if (!drawnResolutions.get(resolution).contains(action.getTargetState())){
+						    drawnResolutions.get(resolution).add(action.getTargetState());
+						    out.append("\"" + action.getTargetState().getId() + "\" -> " + "\"" + resolution.getId() + "\" ");
+	                        out.append("[");
+	                        out.append("style=dotted");
+	                        out.append("]");
+	                        out.append(NL);
+						}
+						
 					}
 						
 				}

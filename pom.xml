@@ -2,8 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>rtc.cz.ibm.com</groupId>
   <artifactId>workflow-visualiser</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2</version>
   <build>
+  	<sourceDirectory>${basedir}/com</sourceDirectory>
   	<plugins>
   		<plugin>
   			<groupId>org.apache.maven.plugins</groupId>
@@ -23,9 +24,36 @@
           		<downloadJavadocs>true</downloadJavadocs>
   			</configuration>
   		</plugin>
+  		<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.5.5</version>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<archive>
+						<manifest>
+							<mainClass>com.stastnarodina.workflowVisualiser.Main</mainClass>
+						</manifest>
+					</archive>
+
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
   	</plugins>
   </build>
   <repositories>
+    <repository>
+        <id>local-repo</id>
+        <url>file://${basedir}/repo</url>
+    </repository>
   </repositories>
   <dependencies>
   	<dependency>
@@ -33,6 +61,11 @@
 	    <artifactId>dom4j</artifactId>
 	    <version>1.6.1</version>
 	</dependency>
+	<dependency>
+      <groupId>jargs.gnu</groupId>
+      <artifactId>jargs</artifactId>
+      <version>1.0</version>
+    </dependency>
   	<dependency>
   		<groupId>jaxen</groupId>
   		<artifactId>jaxen</artifactId>
