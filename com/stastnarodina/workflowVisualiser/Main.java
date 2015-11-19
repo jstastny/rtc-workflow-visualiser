@@ -108,7 +108,7 @@ public class Main {
 		Option out = parser.addStringOption('o', "out");
 		Option format = parser.addStringOption('f', "format");
 		Option source = parser.addBooleanOption('s', "source");
-		Option showResolution = parser.addBooleanOption('r', "resolutions");
+		Option hideResolution = parser.addBooleanOption("hide-resolutions");
 		
 		 try {
             parser.parse(args);
@@ -145,9 +145,9 @@ public class Main {
             	Configuration.setSaveDotSource(true);
             }
             
-            Boolean showResolVal = (Boolean) parser.getOptionValue(showResolution, Boolean.TRUE);
-            if(showResolVal != null) {
-            	Configuration.setShowResolution(showResolVal);
+            Boolean hideResolVal = (Boolean) parser.getOptionValue(hideResolution, Boolean.FALSE);
+            if(hideResolVal != null) {
+                Configuration.setShowResolution(!hideResolVal);
             }
             
             String[] remaining = parser.getRemainingArgs();
@@ -174,8 +174,8 @@ public class Main {
 				"  -d|--dot Location of dot executable\n" +
 				"  -o|--out Output directory\n" +
 				"  -f|--format Output format (see the output formats of dot)\n" +
-				"  -s|--source Save the DOT source file in the output directory" +
-				"  -r|--resolutions Set to false to avoid displaying resolutions";
+				"  -s|--source Save the DOT source file in the output directory\n" +
+				"  --hide-resolutions Set it to avoid displaying resolutions";
 	}
 	
 	private static void saveSource(String source, Workflow workflow) {
