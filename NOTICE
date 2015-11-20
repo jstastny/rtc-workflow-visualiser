@@ -1,0 +1,6 @@
+
+   Workflow Visualiser
+   Copyright 2010 Jan Stastny
+
+	This product uses dom4j (http://www.dom4j.org/), Jaxen (http://jaxen.codehaus.org/)
+	and XML-commons (http://xml.apache.org/commons/).
