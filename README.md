@@ -71,7 +71,7 @@ Binaries are available with the releases at https://github.com/jstastny/rtc-work
 
 ## License
 
-Copyright 2010 Jan Stastny
+    Copyright 2010 Jan Stastny
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
