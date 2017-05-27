@@ -1,4 +1,4 @@
-package stastnarodina.workflowVisualiser;
+package com.stastnarodina.workflowVisualiser;
 
 import java.util.HashSet;
 import java.util.Set;

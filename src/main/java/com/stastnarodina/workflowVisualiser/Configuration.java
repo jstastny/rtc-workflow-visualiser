@@ -1,4 +1,4 @@
-package stastnarodina.workflowVisualiser;
+package com.stastnarodina.workflowVisualiser;
 
 
 public class Configuration {
