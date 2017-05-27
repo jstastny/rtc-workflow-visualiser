@@ -1,4 +1,4 @@
-package stastnarodina.workflowVisualiser;
+package com.stastnarodina.workflowVisualiser;
 
 import java.io.IOException;
 import java.io.InputStream;

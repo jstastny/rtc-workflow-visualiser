@@ -1,4 +1,4 @@
-package stastnarodina.workflowVisualiser;
+package com.stastnarodina.workflowVisualiser;
 
 import jargs.gnu.CmdLineParser;
 import jargs.gnu.CmdLineParser.Option;
