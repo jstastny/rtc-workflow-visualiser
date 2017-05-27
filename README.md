@@ -26,6 +26,7 @@ Usage: java -jar visualiser.jar [options] source-xml-file
   -o|--out Output directory (defaults to /tmp/)
   -f|--format Output format (see the output formats of dot) (defaults to pdf)
   -s|--source Save the DOT source file in the output directory
+  --hide-resolutions Set it to avoid displaying resolutions
 ```
 
 ## Examples
